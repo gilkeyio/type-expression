@@ -53,10 +53,10 @@ type C = TypeExpr<"-(7 % 4) * 3">;    // -9
 These correspond to the reference tests in the source.
 
 How it works
-	1.	tokenize.ts –  A conditional-type state machine scans the string and emits a TokenList.
-	2.	parse.ts –  Recursive types consume that list, building an AST string such as "+(n:5,*(n:3,n:2))".
-	3.	evaluate.ts –  Pattern-matches on the AST and delegates arithmetic to Add, Subtract, Multiply, etc. from ts-arithmetic.
-	4.	expression_string.ts –  Exposes the public TypeExpr<expr> helper that pipes the whole flow together.
+1.	`tokenize.ts` –  A conditional-type state machine scans the string and emits a TokenList.
+2.	`parse.ts` –  Recursive types consume that list, building an AST string such as "+(n:5,*(n:3,n:2))".
+3.	`evaluate.ts` –  Pattern-matches on the AST and delegates arithmetic to Add, Subtract, Multiply, etc. from ts-arithmetic.
+4.	`expression_string.ts` –  Exposes the public TypeExpr<expr> helper that pipes the whole flow together.
 
 ## API
 
@@ -74,6 +74,7 @@ type Value  = Evaluate<Ast>;          // 9
 - Relies on TypeScript’s recursive-type depth; extremely large expressions may hit compiler limits.
 - Division is floating-point; exact rationals aren’t supported (yet).
 - Planned: publish to npm under type-expression, add bigint support, CI tests.
+- The type testing library is interesting; might be worth exploring more on its own.
 
 ## Contributing
 

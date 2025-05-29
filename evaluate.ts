@@ -1,5 +1,4 @@
 import type { Add, Subtract, Multiply, Divide, Mod, Pow } from "ts-arithmetic";
-import { ToAstString } from "./parse";
 import { Expect, Equal } from "./test_utilities";
 
 /**

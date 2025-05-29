@@ -1,14 +1,34 @@
 {
-  "name": "string_expression2",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "@gilkeyio/type-expression",
+  "version": "0.1.1",
+  "description": "Compile-time type-level arithmetic expression evaluator for TypeScript",
+  "types": "index.ts",
+  "files": [
+    "*.ts"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tsc --noEmit && echo \"✔ Type check passed.\""
   },
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "author": "Kimberly Gilkey",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gilkeyio/TypeExpression"
+  },
+  "keywords": [
+    "typescript",
+    "type-level",
+    "type-system",
+    "expression",
+    "arithmetic",
+    "parser",
+    "compile-time",
+    "dsl"
+  ],
   "dependencies": {
     "ts-arithmetic": "^0.1.1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
