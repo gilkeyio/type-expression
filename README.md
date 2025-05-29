@@ -71,9 +71,9 @@ type Value  = Evaluate<Ast>;          // 9
 ```
 
 ## Limitations & roadmap
-	•	Relies on TypeScript’s recursive-type depth; extremely large expressions may hit compiler limits.
-	•	Division is floating-point; exact rationals aren’t supported (yet).
-	•	Planned: publish to npm under type-expression, add bigint support, CI tests.
+- Relies on TypeScript’s recursive-type depth; extremely large expressions may hit compiler limits.
+- Division is floating-point; exact rationals aren’t supported (yet).
+- Planned: publish to npm under type-expression, add bigint support, CI tests.
 
 ## Contributing
 
