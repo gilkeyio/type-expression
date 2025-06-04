@@ -1,6 +1,6 @@
 
 /** Operators we allow */
-type Operator = "+" | "-" | "*" | "/" | "%" | "^" | "&";
+type Operator = "+" | "-" | "*" | "/" | "%" | "^" | "&" | "|";
 
 /** Single-character whitespace, for trimming input */
 type Whitespace = " " | "\n" | "\r" | "\t";

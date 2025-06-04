@@ -125,6 +125,11 @@ type ParseBitAnd<T extends TokenList> = ParseAddSub<T> extends [
     : never)
   : never;
 
+type ParseBitOr<T extends TokenList> = ParseBitAnd<T> extends [
+  infer FirstAst,
+  infer Tail1 extends TokenList
+] ? (FirstAst extends string ? ParseBitOrRest<FirstAst, Tail1> : never) : never;
+
 type ParseBitAndRest<LhsAst extends string, T extends TokenList> = T extends [
   infer H,
   ...infer R extends TokenList
@@ -139,7 +144,20 @@ type ParseBitAndRest<LhsAst extends string, T extends TokenList> = T extends [
     : [LhsAst, T]
   : [LhsAst, T];
 
-type ParseExpression<T extends TokenList> = ParseBitAnd<T>;
+type ParseBitOrRest<LhsAst extends string, T extends TokenList> = T extends [
+  infer H,
+  ...infer R extends TokenList
+] ? H extends OperatorToken
+  ? H["value"] extends "|"
+    ? ParseBitAnd<R> extends [infer RhsAst, infer Tail2 extends TokenList]
+      ? RhsAst extends string
+        ? ParseBitOrRest<`|(${LhsAst},${RhsAst})`, Tail2>
+        : never
+      : never
+    : [LhsAst, T]
+  : [LhsAst, T]
+: [LhsAst, T];
+type ParseExpression<T extends TokenList> = ParseBitOr<T>;
 
 export type ToAstString<S extends string> = Tokenize<S> extends infer TK
   ? TK extends TokenList

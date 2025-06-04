@@ -258,3 +258,68 @@ type EvalUnaryPlusComplex = Expect<
  * "&(n:5,n:3)" => 1
  */
 type EvalBitwiseAnd = Expect<Equal<Evaluate<"&(n:5,n:3)">, 1>>;
+/**
+ * 35. Bitwise AND with different numbers
+ * "&(n:13,n:11)" => 9
+ */
+type EvalBitwiseAndDiff = Expect<Equal<Evaluate<"&(n:13,n:11)">, 9>>;
+
+/**
+ * 36. Bitwise AND with zero
+ * "&(n:7,n:0)" => 0
+ */
+type EvalBitwiseAndZero = Expect<Equal<Evaluate<"&(n:7,n:0)">, 0>>;
+
+/**
+ * 37. Bitwise AND multiple
+ * "&( &(n:15,n:7),n:3)" => 3
+ */
+type EvalBitwiseAndMulti = Expect<Equal<Evaluate<"&( &(n:15,n:7),n:3)">, 3>>;
+
+/**
+ * 38. Bitwise AND chain
+ * "&( &(n:8,n:6),n:1)" => 0
+ */
+type EvalBitwiseAndChain = Expect<Equal<Evaluate<"&( &(n:8,n:6),n:1)">, 0>>;
+
+/**
+ * 39. Bitwise OR simple
+ * "|(n:5,n:3)" => 7
+ */
+type EvalBitwiseOr = Expect<Equal<Evaluate<"|(n:5,n:3)">, 7>>;
+
+/**
+ * 40. Bitwise OR with zero
+ * "|(n:1,n:0)" => 1
+ */
+type EvalBitwiseOrZero = Expect<Equal<Evaluate<"|(n:1,n:0)">, 1>>;
+
+/**
+ * 41. Bitwise OR chain
+ * "|( |(n:1,n:2),n:4)" => 7
+ */
+type EvalBitwiseOrChain = Expect<Equal<Evaluate<"|( |(n:1,n:2),n:4)">, 7>>;
+
+/**
+ * 42. Mixed OR and AND precedence
+ * "|(n:1,&(n:2,n:3))" => 3
+ */
+type EvalMixedOrAnd = Expect<Equal<Evaluate<"|(n:1,&(n:2,n:3))">, 3>>;
+
+/**
+ * 43. Mixed precedence chain
+ * "|( &(n:4,n:1),n:2)" => 2
+ */
+type EvalMixedChain = Expect<Equal<Evaluate<"|( &(n:4,n:1),n:2)">, 2>>;
+
+/**
+ * 44. Bitwise OR multiple operands
+ * "|( |(n:1,n:0),n:8)" => 9
+ */
+type EvalBitwiseOrMulti = Expect<Equal<Evaluate<"|( |(n:1,n:0),n:8)">, 9>>;
+
+/**
+ * 45. Bitwise OR symmetric check
+ * "|(n:2,n:4)" => 6
+ */
+type EvalBitwiseOrSymmetric = Expect<Equal<Evaluate<"|(n:2,n:4)">, 6>>;

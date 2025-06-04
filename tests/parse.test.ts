@@ -207,9 +207,66 @@ type ParseUnaryPlusComplex = Expect<
   Equal<ToAstString<"2 * +3 + 4">, "+(*(n:2,+(n:3)),n:4)">
 >;
 
-
 /**
  * 34. Bitwise AND
  * "5 & 3" => "&(n:5,n:3)"
  */
 type ParseBitwiseAnd = Expect<Equal<ToAstString<"5 & 3">, "&(n:5,n:3)">>;
+
+/**
+ * 35. Bitwise AND chain
+ * "8 & 6 & 1" => "&(&(n:8,n:6),n:1)"
+ */
+type ParseBitwiseAndChain = Expect<
+  Equal<ToAstString<"8 & 6 & 1">, "&(&(n:8,n:6),n:1)">
+>;
+
+/**
+ * 36. Bitwise OR
+ * "5 | 3" => "|(n:5,n:3)"
+ */
+type ParseBitwiseOr = Expect<Equal<ToAstString<"5 | 3">, "|(n:5,n:3)">>;
+
+/**
+ * 37. Bitwise OR chain
+ * "1 | 2 | 4" => "|(|(n:1,n:2),n:4)"
+ */
+type ParseBitwiseOrChain = Expect<
+  Equal<ToAstString<"1 | 2 | 4">, "|(|(n:1,n:2),n:4)">
+>;
+
+/**
+ * 38. Mixed AND/OR precedence
+ * "1 | 2 & 3" => "|(n:1,&(n:2,n:3))"
+ */
+type ParseMixedOrAnd = Expect<
+  Equal<ToAstString<"1 | 2 & 3">, "|(n:1,&(n:2,n:3))">
+>;
+
+/**
+ * 39. Bitwise OR with zero
+ * "0 | 7" => "|(n:0,n:7)"
+ */
+type ParseBitwiseOrZero = Expect<Equal<ToAstString<"0 | 7">, "|(n:0,n:7)">>;
+
+/**
+ * 40. Mixed precedence chain
+ * "4 & 1 | 2" => "|(&(n:4,n:1),n:2)"
+ */
+type ParseMixedChain = Expect<
+  Equal<ToAstString<"4 & 1 | 2">, "|(&(n:4,n:1),n:2)">
+>;
+
+/**
+ * 41. Bitwise OR multiple operands
+ * "0 | 1 | 8" => "|(|(n:0,n:1),n:8)"
+ */
+type ParseBitwiseOrMulti = Expect<
+  Equal<ToAstString<"0 | 1 | 8">, "|(|(n:0,n:1),n:8)">
+>;
+
+/**
+ * 42. Bitwise OR simple pair
+ * "2 | 4" => "|(n:2,n:4)"
+ */
+type ParseBitwiseOrPair = Expect<Equal<ToAstString<"2 | 4">, "|(n:2,n:4)">>;

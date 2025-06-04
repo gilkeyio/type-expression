@@ -211,3 +211,50 @@ type ExprBitwiseAnd = Expect<Equal<TypeExpr<"5 & 3">, 1>>;
  * "13 & 11" => 9
  */
 type ExprBitwiseAndLarge = Expect<Equal<TypeExpr<"13 & 11">, 9>>;
+/**
+ * 35. Bitwise AND with zero
+ * "7 & 0" => 0
+ */
+type ExprBitwiseAndZero = Expect<Equal<TypeExpr<"7 & 0">, 0>>;
+
+/**
+ * 36. Bitwise AND chain
+ * "15 & 7 & 3" => 3
+ */
+type ExprBitwiseAndChain = Expect<Equal<TypeExpr<"15 & 7 & 3">, 3>>;
+
+/**
+ * 37. Bitwise AND nested chain
+ * "8 & 6 & 1" => 0
+ */
+type ExprBitwiseAndNested = Expect<Equal<TypeExpr<"8 & 6 & 1">, 0>>;
+
+/**
+ * 38. Bitwise OR
+ * "5 | 3" => 7
+ */
+type ExprBitwiseOr = Expect<Equal<TypeExpr<"5 | 3">, 7>>;
+
+/**
+ * 39. Bitwise OR chain
+ * "1 | 2 | 4" => 7
+ */
+type ExprBitwiseOrChain = Expect<Equal<TypeExpr<"1 | 2 | 4">, 7>>;
+
+/**
+ * 40. Bitwise OR with zero
+ * "0 | 7" => 7
+ */
+type ExprBitwiseOrZero = Expect<Equal<TypeExpr<"0 | 7">, 7>>;
+
+/**
+ * 41. Mixed OR and AND
+ * "4 & 1 | 2" => 2
+ */
+type ExprMixedPrecedence = Expect<Equal<TypeExpr<"4 & 1 | 2">, 2>>;
+
+/**
+ * 42. Bitwise OR multiple operands
+ * "0 | 1 | 8" => 9
+ */
+type ExprBitwiseOrMulti = Expect<Equal<TypeExpr<"0 | 1 | 8">, 9>>;

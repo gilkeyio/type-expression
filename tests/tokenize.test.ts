@@ -690,3 +690,151 @@ type TokenBitwiseAnd = Expect<
     ]
   >
 >;
+/**
+ * 35. Bitwise AND chain
+ * "8 & 3 & 1" => [
+ *   { type: "number"; value: "8" },
+ *   { type: "operator"; value: "&" },
+ *   { type: "number"; value: "3" },
+ *   { type: "operator"; value: "&" },
+ *   { type: "number"; value: "1" }
+ * ]
+ */
+type TokenAndChain = Expect<
+  Equal<
+    Tokenize<"8 & 3 & 1">,
+    [
+      { type: "number"; value: "8" },
+      { type: "operator"; value: "&" },
+      { type: "number"; value: "3" },
+      { type: "operator"; value: "&" },
+      { type: "number"; value: "1" }
+    ]
+  >
+>;
+
+/**
+ * 36. Bitwise AND with zero
+ * "7 & 0" => [
+ *   { type: "number"; value: "7" },
+ *   { type: "operator"; value: "&" },
+ *   { type: "number"; value: "0" }
+ * ]
+ */
+type TokenAndZero = Expect<
+  Equal<
+    Tokenize<"7 & 0">,
+    [
+      { type: "number"; value: "7" },
+      { type: "operator"; value: "&" },
+      { type: "number"; value: "0" }
+    ]
+  >
+>;
+
+/**
+ * 37. Bitwise OR
+ * "5 | 3" => [
+ *   { type: "number"; value: "5" },
+ *   { type: "operator"; value: "|" },
+ *   { type: "number"; value: "3" }
+ * ]
+ */
+type TokenOrSimple = Expect<
+  Equal<
+    Tokenize<"5 | 3">,
+    [
+      { type: "number"; value: "5" },
+      { type: "operator"; value: "|" },
+      { type: "number"; value: "3" }
+    ]
+  >
+>;
+
+/**
+ * 38. Bitwise OR chain
+ * "1 | 2 | 4" => [
+ *   { type: "number"; value: "1" },
+ *   { type: "operator"; value: "|" },
+ *   { type: "number"; value: "2" },
+ *   { type: "operator"; value: "|" },
+ *   { type: "number"; value: "4" }
+ * ]
+ */
+type TokenOrChain = Expect<
+  Equal<
+    Tokenize<"1 | 2 | 4">,
+    [
+      { type: "number"; value: "1" },
+      { type: "operator"; value: "|" },
+      { type: "number"; value: "2" },
+      { type: "operator"; value: "|" },
+      { type: "number"; value: "4" }
+    ]
+  >
+>;
+
+/**
+ * 39. Mixed OR and AND
+ * "1 | 2 & 3" => [
+ *   { type: "number"; value: "1" },
+ *   { type: "operator"; value: "|" },
+ *   { type: "number"; value: "2" },
+ *   { type: "operator"; value: "&" },
+ *   { type: "number"; value: "3" }
+ * ]
+ */
+type TokenOrAndMix = Expect<
+  Equal<
+    Tokenize<"1 | 2 & 3">,
+    [
+      { type: "number"; value: "1" },
+      { type: "operator"; value: "|" },
+      { type: "number"; value: "2" },
+      { type: "operator"; value: "&" },
+      { type: "number"; value: "3" }
+    ]
+  >
+>;
+
+/**
+ * 40. Bitwise OR with zero
+ * "0 | 7" => [
+ *   { type: "number"; value: "0" },
+ *   { type: "operator"; value: "|" },
+ *   { type: "number"; value: "7" }
+ * ]
+ */
+type TokenOrZero = Expect<
+  Equal<
+    Tokenize<"0 | 7">,
+    [
+      { type: "number"; value: "0" },
+      { type: "operator"; value: "|" },
+      { type: "number"; value: "7" }
+    ]
+  >
+>;
+
+/**
+ * 41. Mixed precedence chain
+ * "4 & 1 | 2" => [
+ *   { type: "number"; value: "4" },
+ *   { type: "operator"; value: "&" },
+ *   { type: "number"; value: "1" },
+ *   { type: "operator"; value: "|" },
+ *   { type: "number"; value: "2" }
+ * ]
+ */
+type TokenMixPrecedence = Expect<
+  Equal<
+    Tokenize<"4 & 1 | 2">,
+    [
+      { type: "number"; value: "4" },
+      { type: "operator"; value: "&" },
+      { type: "number"; value: "1" },
+      { type: "operator"; value: "|" },
+      { type: "number"; value: "2" }
+    ]
+  >
+>;
