@@ -1,7 +1,7 @@
 import { Expect, Equal } from "./test_utilities";
 
 /** Operators we allow */
-type Operator = "+" | "-" | "*" | "/" | "%" | "^";
+type Operator = "+" | "-" | "*" | "/" | "%" | "^" | "&";
 
 /** Single-character whitespace, for trimming input */
 type Whitespace = " " | "\n" | "\r" | "\t";
@@ -760,6 +760,24 @@ type Tokenize33 = Expect<
       { type: "number"; value: "3" },
       { type: "operator"; value: "+" },
       { type: "number"; value: "4" }
+    ]
+  >
+>;
+/**
+ * 34. Bitwise AND
+ * "5 & 3" => [
+ *   { type: "number"; value: "5" },
+ *   { type: "operator"; value: "&" },
+ *   { type: "number"; value: "3" }
+ * ]
+ */
+type Tokenize34 = Expect<
+  Equal<
+    Tokenize<"5 & 3">,
+    [
+      { type: "number"; value: "5" },
+      { type: "operator"; value: "&" },
+      { type: "number"; value: "3" }
     ]
   >
 >;

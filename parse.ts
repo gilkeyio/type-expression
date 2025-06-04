@@ -118,7 +118,29 @@ type ParseAddSubRest<LhsAst extends string, T extends TokenList> = T extends [
   : // no more tokens => done
     [LhsAst, T];
 
-type ParseExpression<T extends TokenList> = ParseAddSub<T>;
+type ParseBitAnd<T extends TokenList> = ParseAddSub<T> extends [
+  infer FirstAst,
+  infer Tail1 extends TokenList
+] ? (FirstAst extends string
+    ? ParseBitAndRest<FirstAst, Tail1>
+    : never)
+  : never;
+
+type ParseBitAndRest<LhsAst extends string, T extends TokenList> = T extends [
+  infer H,
+  ...infer R extends TokenList
+] ? H extends OperatorToken
+    ? H["value"] extends "&"
+      ? ParseAddSub<R> extends [infer RhsAst, infer Tail2 extends TokenList]
+        ? RhsAst extends string
+          ? ParseBitAndRest<`&(${LhsAst},${RhsAst})`, Tail2>
+          : never
+        : never
+      : [LhsAst, T]
+    : [LhsAst, T]
+  : [LhsAst, T];
+
+type ParseExpression<T extends TokenList> = ParseBitAnd<T>;
 
 export type ToAstString<S extends string> = Tokenize<S> extends infer TK
   ? TK extends TokenList
@@ -341,3 +363,10 @@ type AstTest32 = Expect<
 type AstTest33 = Expect<
   Equal<ToAstString<"2 * +3 + 4">, "+(*(n:2,+(n:3)),n:4)">
 >;
+
+
+/**
+ * 34. Bitwise AND
+ * "5 & 3" => "&(n:5,n:3)"
+ */
+type AstTest34 = Expect<Equal<ToAstString<"5 & 3">, "&(n:5,n:3)">>;
