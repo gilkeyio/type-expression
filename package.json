@@ -7,7 +7,8 @@
     "*.ts"
   ],
   "scripts": {
-    "test": "tsc --noEmit && echo \"✔ Type check passed.\""
+    "typecheck": "tsc --noEmit",
+    "test": "npm run typecheck && echo \"✔ Type check passed.\""
   },
   "author": "Kimberly Gilkey",
   "license": "MIT",
