@@ -292,3 +292,30 @@ type ParseEqualityComparison = Expect<
 type ParseTernary = Expect<
   Equal<ToAstString<"1 > 2 ? 8 : 9">, "?:(>(n:1,n:2),n:8,n:9)">
 >;
+
+/**
+ * 46. Ternary with true branch
+ * "2 == 2 ? 10 : 20" => "?:(==(n:2,n:2),n:10,n:20)"
+ */
+type ParseTernaryTrue = Expect<
+  Equal<ToAstString<"2 == 2 ? 10 : 20">, "?:(==(n:2,n:2),n:10,n:20)">
+>;
+
+/**
+ * 47. Ternary with false branch
+ * "2 < 1 ? 10 : 20" => "?:(<(n:2,n:1),n:10,n:20)"
+ */
+type ParseTernaryFalse = Expect<
+  Equal<ToAstString<"2 < 1 ? 10 : 20">, "?:(<(n:2,n:1),n:10,n:20)">
+>;
+
+/**
+ * 48. Nested ternary
+ * "1 > 2 ? 1 : 3 > 2 ? 2 : 3" => "?:(>(n:1,n:2),n:1,?:(>(n:3,n:2),n:2,n:3))"
+ */
+type ParseNestedTernary = Expect<
+  Equal<
+    ToAstString<"1 > 2 ? 1 : 3 > 2 ? 2 : 3">,
+    "?:(>(n:1,n:2),n:1,?:(>(n:3,n:2),n:2,n:3))"
+  >
+>;

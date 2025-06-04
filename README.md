@@ -13,10 +13,11 @@
 
 | Capability | Details |
 |------------|---------|
-| Tokenisation | Splits input into `NumberToken`, `OperatorToken`, and `ParenToken` at the type level. Supported operators: `+ - * / % ^ & \|`. |
+| Tokenisation | Splits input into `NumberToken`, `OperatorToken`, and `ParenToken` at the type level. Supported operators include arithmetic, bitwise, comparison, and ternary tokens. |
 | Parser | Recursive-descent parser with correct precedence, associativity, parentheses, and unary ± support. Produces a canonical AST string. |
 | Evaluator | Delegates arithmetic to [`ts-arithmetic`](https://github.com/arielhs/ts-arithmetic) for arbitrary-precision math at the type level. |
 | Decimals & negatives | Works with decimal literals and unary operators out of the box. |
+| Comparisons & conditional | Supports `>`, `<`, `>=`, `<=`, `==`, `!=` and the `?:` ternary operator. |
 | Extensive tests | Dozens of compile-time test cases cover tricky edge cases. |
 | MIT-licensed | Free for personal and commercial use. |
 
@@ -50,6 +51,8 @@ type B = TypeExpr<"(5 + 3) * 2">;     // 16
 type C = TypeExpr<"-(7 % 4) * 3">;    // -9
 type D = TypeExpr<"5 & 3">;           // 1
 type E = TypeExpr<"5 | 2">;           // 7
+type F = TypeExpr<"3 > 2">;           // true
+type G = TypeExpr<"1 > 2 ? 8 : 9">;  // 9
 ```
 
 These correspond to the reference tests in the source.
