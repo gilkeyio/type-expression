@@ -153,7 +153,3 @@ export type ToAstString<S extends string> = Tokenize<S> extends infer TK
     : never
   : never;
 
-/**
- * 1. Single literal
- * "5" => "n:5"
- */
