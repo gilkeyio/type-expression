@@ -13,7 +13,7 @@
 
 | Capability | Details |
 |------------|---------|
-| Tokenisation | Splits input into `NumberToken`, `OperatorToken`, and `ParenToken` at the type level. Supported operators: `+ - * / % ^ & |`. |
+| Tokenisation | Splits input into `NumberToken`, `OperatorToken`, and `ParenToken` at the type level. Supported operators: `+ - * / % ^ & \|`. |
 | Parser | Recursive-descent parser with correct precedence, associativity, parentheses, and unary ± support. Produces a canonical AST string. |
 | Evaluator | Delegates arithmetic to [`ts-arithmetic`](https://github.com/arielhs/ts-arithmetic) for arbitrary-precision math at the type level. |
 | Decimals & negatives | Works with decimal literals and unary operators out of the box. |
