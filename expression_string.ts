@@ -217,3 +217,63 @@ type TypeTest34 = Expect<Equal<TypeExpr<"5 & 3">, 1>>;
  * "13 & 11" => 9
  */
 type TypeTest35 = Expect<Equal<TypeExpr<"13 & 11">, 9>>;
+
+/**
+ * 36. Bitwise AND with zero
+ * "7 & 0" => 0
+ */
+type TypeTest36 = Expect<Equal<TypeExpr<"7 & 0">, 0>>;
+
+/**
+ * 37. Bitwise AND chain
+ * "8 & 6 & 1" => 0
+ */
+type TypeTest37 = Expect<Equal<TypeExpr<"8 & 6 & 1">, 0>>;
+
+/**
+ * 38. Bitwise AND with another value
+ * "15 & 7" => 7
+ */
+type TypeTest38 = Expect<Equal<TypeExpr<"15 & 7">, 7>>;
+
+/**
+ * 39. Bitwise OR
+ * "5 | 3" => 7
+ */
+type TypeTest39 = Expect<Equal<TypeExpr<"5 | 3">, 7>>;
+
+/**
+ * 40. Bitwise OR chain
+ * "1 | 2 | 4" => 7
+ */
+type TypeTest40 = Expect<Equal<TypeExpr<"1 | 2 | 4">, 7>>;
+
+/**
+ * 41. Mixed AND/OR precedence
+ * "1 | 2 & 3" => 3
+ */
+type TypeTest41 = Expect<Equal<TypeExpr<"1 | 2 & 3">, 3>>;
+
+/**
+ * 42. Bitwise OR with zero
+ * "0 | 7" => 7
+ */
+type TypeTest42 = Expect<Equal<TypeExpr<"0 | 7">, 7>>;
+
+/**
+ * 43. Mixed precedence chain
+ * "4 & 1 | 2" => 2
+ */
+type TypeTest43 = Expect<Equal<TypeExpr<"4 & 1 | 2">, 2>>;
+
+/**
+ * 44. Bitwise OR multiple operands
+ * "0 | 1 | 8" => 9
+ */
+type TypeTest44 = Expect<Equal<TypeExpr<"0 | 1 | 8">, 9>>;
+
+/**
+ * 45. Bitwise OR simple pair
+ * "2 | 4" => 6
+ */
+type TypeTest45 = Expect<Equal<TypeExpr<"2 | 4">, 6>>;

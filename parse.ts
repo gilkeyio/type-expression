@@ -126,6 +126,11 @@ type ParseBitAnd<T extends TokenList> = ParseAddSub<T> extends [
     : never)
   : never;
 
+type ParseBitOr<T extends TokenList> = ParseBitAnd<T> extends [
+  infer FirstAst,
+  infer Tail1 extends TokenList
+] ? (FirstAst extends string ? ParseBitOrRest<FirstAst, Tail1> : never) : never;
+
 type ParseBitAndRest<LhsAst extends string, T extends TokenList> = T extends [
   infer H,
   ...infer R extends TokenList
@@ -140,7 +145,20 @@ type ParseBitAndRest<LhsAst extends string, T extends TokenList> = T extends [
     : [LhsAst, T]
   : [LhsAst, T];
 
-type ParseExpression<T extends TokenList> = ParseBitAnd<T>;
+type ParseBitOrRest<LhsAst extends string, T extends TokenList> = T extends [
+  infer H,
+  ...infer R extends TokenList
+] ? H extends OperatorToken
+  ? H["value"] extends "|"
+    ? ParseBitAnd<R> extends [infer RhsAst, infer Tail2 extends TokenList]
+      ? RhsAst extends string
+        ? ParseBitOrRest<`|(${LhsAst},${RhsAst})`, Tail2>
+        : never
+      : never
+    : [LhsAst, T]
+  : [LhsAst, T]
+: [LhsAst, T];
+type ParseExpression<T extends TokenList> = ParseBitOr<T>;
 
 export type ToAstString<S extends string> = Tokenize<S> extends infer TK
   ? TK extends TokenList
@@ -370,3 +388,61 @@ type AstTest33 = Expect<
  * "5 & 3" => "&(n:5,n:3)"
  */
 type AstTest34 = Expect<Equal<ToAstString<"5 & 3">, "&(n:5,n:3)">>;
+
+/**
+ * 35. Bitwise AND chain
+ * "8 & 6 & 1" => "&(&(n:8,n:6),n:1)"
+ */
+type AstTest35 = Expect<
+  Equal<ToAstString<"8 & 6 & 1">, "&(&(n:8,n:6),n:1)">
+>;
+
+/**
+ * 36. Bitwise OR
+ * "5 | 3" => "|(n:5,n:3)"
+ */
+type AstTest36 = Expect<Equal<ToAstString<"5 | 3">, "|(n:5,n:3)">>;
+
+/**
+ * 37. Bitwise OR chain
+ * "1 | 2 | 4" => "|(|(n:1,n:2),n:4)"
+ */
+type AstTest37 = Expect<
+  Equal<ToAstString<"1 | 2 | 4">, "|(|(n:1,n:2),n:4)">
+>;
+
+/**
+ * 38. Mixed AND/OR precedence
+ * "1 | 2 & 3" => "|(n:1,&(n:2,n:3))"
+ */
+type AstTest38 = Expect<
+  Equal<ToAstString<"1 | 2 & 3">, "|(n:1,&(n:2,n:3))">
+>;
+
+/**
+ * 39. Bitwise OR with zero
+ * "0 | 7" => "|(n:0,n:7)"
+ */
+type AstTest39 = Expect<Equal<ToAstString<"0 | 7">, "|(n:0,n:7)">>;
+
+/**
+ * 40. Mixed precedence chain
+ * "4 & 1 | 2" => "|(&(n:4,n:1),n:2)"
+ */
+type AstTest40 = Expect<
+  Equal<ToAstString<"4 & 1 | 2">, "|(&(n:4,n:1),n:2)">
+>;
+
+/**
+ * 41. Bitwise OR multiple operands
+ * "0 | 1 | 8" => "|(|(n:0,n:1),n:8)"
+ */
+type AstTest41 = Expect<
+  Equal<ToAstString<"0 | 1 | 8">, "|(|(n:0,n:1),n:8)">
+>;
+
+/**
+ * 42. Bitwise OR simple pair
+ * "2 | 4" => "|(n:2,n:4)"
+ */
+type AstTest42 = Expect<Equal<ToAstString<"2 | 4">, "|(n:2,n:4)">>;

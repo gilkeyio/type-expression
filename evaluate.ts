@@ -45,6 +45,12 @@ type BitwiseAnd<A extends number, B extends number> =
         AndBits<Mod<A, 2> & Bit, Mod<B, 2> & Bit>
       >;
 
+// --- Bitwise OR implementation for non-negative integers ---
+type BitwiseOr<A extends number, B extends number> = Subtract<
+  Add<A, B>,
+  BitwiseAnd<A, B>
+>;
+
 /**
  * The *key* is to handle +(...) and -(...) with a single pattern each,
  * then decide whether it’s unary or binary based on SplitTopLevel.
@@ -68,6 +74,8 @@ export type Evaluate<S extends string> = S extends `n:${infer N extends number}`
   ? EvaluateMod<Body>
   : S extends `&(${infer Body})`
   ? EvaluateAnd<Body>
+  : S extends `|(${infer Body})`
+  ? EvaluateOr<Body>
   : never;
 
 // Now each operator’s “evaluate” function can do the split
@@ -119,6 +127,13 @@ type EvaluateMod<S extends string> = SplitTopLevel<S> extends [infer L, infer R]
 
 type EvaluateAnd<S extends string> = SplitTopLevel<S> extends [infer L, infer R]
   ? BitwiseAnd<
+      Evaluate<Trim<Extract<L, string>>>,
+      Evaluate<Trim<Extract<R, string>>>
+    >
+  : never;
+
+type EvaluateOr<S extends string> = SplitTopLevel<S> extends [infer L, infer R]
+  ? BitwiseOr<
       Evaluate<Trim<Extract<L, string>>>,
       Evaluate<Trim<Extract<R, string>>>
     >
@@ -384,3 +399,69 @@ type Test33 = Expect<
  * "&(n:5,n:3)" => 1
  */
 type Test34 = Expect<Equal<Evaluate<"&(n:5,n:3)">, 1>>;
+
+/**
+ * 35. Bitwise AND with different numbers
+ * "&(n:13,n:11)" => 9
+ */
+type Test35 = Expect<Equal<Evaluate<"&(n:13,n:11)">, 9>>;
+
+/**
+ * 36. Bitwise AND with zero
+ * "&(n:7,n:0)" => 0
+ */
+type Test36 = Expect<Equal<Evaluate<"&(n:7,n:0)">, 0>>;
+
+/**
+ * 37. Bitwise AND multiple
+ * "&( &(n:15,n:7),n:3)" => 3
+ */
+type Test37 = Expect<Equal<Evaluate<"&( &(n:15,n:7),n:3)">, 3>>;
+
+/**
+ * 38. Bitwise AND chain
+ * "&( &(n:8,n:6),n:1)" => 0
+ */
+type Test38 = Expect<Equal<Evaluate<"&( &(n:8,n:6),n:1)">, 0>>;
+
+/**
+ * 39. Bitwise OR simple
+ * "|(n:5,n:3)" => 7
+ */
+type Test39 = Expect<Equal<Evaluate<"|(n:5,n:3)">, 7>>;
+
+/**
+ * 40. Bitwise OR with zero
+ * "|(n:1,n:0)" => 1
+ */
+type Test40 = Expect<Equal<Evaluate<"|(n:1,n:0)">, 1>>;
+
+/**
+ * 41. Bitwise OR chain
+ * "|( |(n:1,n:2),n:4)" => 7
+ */
+type Test41 = Expect<Equal<Evaluate<"|( |(n:1,n:2),n:4)">, 7>>;
+
+/**
+ * 42. Mixed OR and AND precedence
+ * "|(n:1,&(n:2,n:3))" => 3
+ */
+type Test42 = Expect<Equal<Evaluate<"|(n:1,&(n:2,n:3))">, 3>>;
+
+/**
+ * 43. Mixed precedence chain
+ * "|( &(n:4,n:1),n:2)" => 2
+ */
+type Test43 = Expect<Equal<Evaluate<"|( &(n:4,n:1),n:2)">, 2>>;
+
+/**
+ * 44. Bitwise OR multiple operands
+ * "|( |(n:1,n:0),n:8)" => 9
+ */
+type Test44 = Expect<Equal<Evaluate<"|( |(n:1,n:0),n:8)">, 9>>;
+
+/**
+ * 45. Bitwise OR symmetric check
+ * "|(n:2,n:4)" => 6
+ */
+type Test45 = Expect<Equal<Evaluate<"|(n:2,n:4)">, 6>>;
