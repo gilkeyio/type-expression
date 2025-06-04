@@ -210,3 +210,10 @@ type TypeTest33 = Expect<Equal<TypeExpr<"2 * +3 + 4">, 10>>;
  * "5 & 3" => 1
  */
 type TypeTest34 = Expect<Equal<TypeExpr<"5 & 3">, 1>>;
+
+
+/**
+ * 34. Bitwise AND
+ * "13 & 11" => 9
+ */
+type TypeTest35 = Expect<Equal<TypeExpr<"13 & 11">, 9>>;
