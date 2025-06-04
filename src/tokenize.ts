@@ -15,7 +15,11 @@ type NumberChar = Digit | ".";
  * A NumberToken stores the exact digits as literal type V.
  * Example: NumberToken<"42">
  */
-export interface NumberToken<V extends string> {
+type StrToNumber<S extends string> = S extends `${infer N extends number}`
+  ? N
+  : never;
+
+export interface NumberToken<V extends number> {
   type: "number";
   value: V;
 }
@@ -31,7 +35,7 @@ export interface ParenToken {
 }
 
 /** A token is either a NumberToken, OperatorToken, or ParenToken. */
-type Token = NumberToken<string> | OperatorToken | ParenToken;
+type Token = NumberToken<number> | OperatorToken | ParenToken;
 
 /** A list of tokens (possibly empty) */
 export type TokenList = Token[];
@@ -54,8 +58,8 @@ type TokenizeNumber<
         ? never // Second decimal point is invalid
         : TokenizeNumber<Rest, `${Acc}${C}`, true>
       : TokenizeNumber<Rest, `${Acc}${C}`, HasDecimal>
-    : [{ type: "number"; value: Acc }, S]
-  : [{ type: "number"; value: Acc }, S];
+    : [{ type: "number"; value: StrToNumber<Acc> }, S]
+  : [{ type: "number"; value: StrToNumber<Acc> }, S];
 
 type TokenizeOne<S extends string> = TrimLeft<S> extends ""
   ? // nothing left => no token
