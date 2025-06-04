@@ -6,5 +6,5 @@
     "module": "ESNext",
     "moduleResolution": "Node"
   },
-  "include": ["*.ts"]
+  "include": ["src/**/*.ts", "tests/**/*.ts"]
 }
