@@ -13,7 +13,7 @@
 
 | Capability | Details |
 |------------|---------|
-| Tokenisation | Splits input into `NumberToken`, `OperatorToken`, and `ParenToken` at the type level. Supported operators: `+ - * / % ^`. |
+| Tokenisation | Splits input into `NumberToken`, `OperatorToken`, and `ParenToken` at the type level. Supported operators: `+ - * / % ^ &`. |
 | Parser | Recursive-descent parser with correct precedence, associativity, parentheses, and unary ± support. Produces a canonical AST string. |
 | Evaluator | Delegates arithmetic to [`ts-arithmetic`](https://github.com/arielhs/ts-arithmetic) for arbitrary-precision math at the type level. |
 | Decimals & negatives | Works with decimal literals and unary operators out of the box. |
@@ -48,6 +48,7 @@ The result Area is literally the number 48 in the type system — you can use it
 type A = TypeExpr<"2 ^ 3 ^ 2">;       // 512
 type B = TypeExpr<"(5 + 3) * 2">;     // 16
 type C = TypeExpr<"-(7 % 4) * 3">;    // -9
+type D = TypeExpr<"5 & 3">;           // 1
 ```
 
 These correspond to the reference tests in the source.

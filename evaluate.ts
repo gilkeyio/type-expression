@@ -29,6 +29,22 @@ type Trim<S extends string> = S extends ` ${infer T}`
   ? Trim<T>
   : S;
 
+// --- Bitwise AND implementation for non-negative integers ---
+type Bit = 0 | 1;
+type AndBits<A extends Bit, B extends Bit> = A extends 1
+  ? (B extends 1 ? 1 : 0)
+  : 0;
+type ShiftRight<N extends number> = Divide<Subtract<N, Mod<N, 2>>, 2>;
+type BitwiseAnd<A extends number, B extends number> =
+  A extends 0
+    ? 0
+    : B extends 0
+    ? 0
+    : Add<
+        Multiply<BitwiseAnd<ShiftRight<A>, ShiftRight<B>>, 2>,
+        AndBits<Mod<A, 2> & Bit, Mod<B, 2> & Bit>
+      >;
+
 /**
  * The *key* is to handle +(...) and -(...) with a single pattern each,
  * then decide whether it’s unary or binary based on SplitTopLevel.
@@ -50,6 +66,8 @@ export type Evaluate<S extends string> = S extends `n:${infer N extends number}`
   ? EvaluatePow<Body>
   : S extends `%(${infer Body})`
   ? EvaluateMod<Body>
+  : S extends `&(${infer Body})`
+  ? EvaluateAnd<Body>
   : never;
 
 // Now each operator’s “evaluate” function can do the split
@@ -97,6 +115,13 @@ type EvaluateDiv<S extends string> = SplitTopLevel<S> extends [infer L, infer R]
 
 type EvaluateMod<S extends string> = SplitTopLevel<S> extends [infer L, infer R]
   ? Mod<Evaluate<Trim<Extract<L, string>>>, Evaluate<Trim<Extract<R, string>>>>
+  : never;
+
+type EvaluateAnd<S extends string> = SplitTopLevel<S> extends [infer L, infer R]
+  ? BitwiseAnd<
+      Evaluate<Trim<Extract<L, string>>>,
+      Evaluate<Trim<Extract<R, string>>>
+    >
   : never;
 
 type EvaluatePow<S extends string> = SplitTopLevel<S> extends [infer L, infer R]
@@ -353,3 +378,9 @@ type Test32 = Expect<
 type Test33 = Expect<
   Equal<Evaluate<"+(*(n:2,+(n:3)),n:4)">, Add<Multiply<2, 3>, 4>>
 >;
+
+/**
+ * 34. Bitwise AND
+ * "&(n:5,n:3)" => 1
+ */
+type Test34 = Expect<Equal<Evaluate<"&(n:5,n:3)">, 1>>;
