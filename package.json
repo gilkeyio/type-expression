@@ -2,9 +2,9 @@
   "name": "@gilkeyio/type-expression",
   "version": "0.1.1",
   "description": "Compile-time type-level arithmetic expression evaluator for TypeScript",
-  "types": "index.ts",
+  "types": "src/index.ts",
   "files": [
-    "*.ts"
+    "src"
   ],
   "scripts": {
     "typecheck": "tsc --noEmit",
