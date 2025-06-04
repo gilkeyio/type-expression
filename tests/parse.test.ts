@@ -207,12 +207,12 @@ type ParseUnaryPlusComplex = Expect<
   Equal<ToAstString<"2 * +3 + 4">, "+(*(n:2,+(n:3)),n:4)">
 >;
 
-
 /**
  * 34. Bitwise AND
  * "5 & 3" => "&(n:5,n:3)"
  */
 type ParseBitwiseAnd = Expect<Equal<ToAstString<"5 & 3">, "&(n:5,n:3)">>;
+
 /**
  * 35. Bitwise AND chain
  * "8 & 6 & 1" => "&(&(n:8,n:6),n:1)"
