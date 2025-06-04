@@ -838,3 +838,30 @@ type TokenMixPrecedence = Expect<
     ]
   >
 >;
+
+/**
+ * 42. Ternary conditional tokens
+ * "1 > 2 ? 3 : 4" => [
+ *   { type: "number"; value: 1 },
+ *   { type: "operator"; value: ">" },
+ *   { type: "number"; value: 2 },
+ *   { type: "operator"; value: "?" },
+ *   { type: "number"; value: 3 },
+ *   { type: "operator"; value: ":" },
+ *   { type: "number"; value: 4 }
+ * ]
+ */
+type TokenTernary = Expect<
+  Equal<
+    Tokenize<"1 > 2 ? 3 : 4">,
+    [
+      { type: "number"; value: 1 },
+      { type: "operator"; value: ">" },
+      { type: "number"; value: 2 },
+      { type: "operator"; value: "?" },
+      { type: "number"; value: 3 },
+      { type: "operator"; value: ":" },
+      { type: "number"; value: 4 }
+    ]
+  >
+>;

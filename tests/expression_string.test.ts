@@ -207,72 +207,92 @@ type ExprBitwiseAnd = Expect<Equal<TypeExpr<"5 & 3">, 1>>;
 
 
 /**
- * 34. Bitwise AND
+ * 35. Bitwise AND
  * "13 & 11" => 9
  */
 type ExprBitwiseAndLarge = Expect<Equal<TypeExpr<"13 & 11">, 9>>;
 /**
- * 35. Bitwise AND with zero
+ * 36. Bitwise AND with zero
  * "7 & 0" => 0
  */
 type ExprBitwiseAndZero = Expect<Equal<TypeExpr<"7 & 0">, 0>>;
 
 /**
- * 36. Bitwise AND chain
+ * 37. Bitwise AND chain
  * "15 & 7 & 3" => 3
  */
 type ExprBitwiseAndChain = Expect<Equal<TypeExpr<"15 & 7 & 3">, 3>>;
 
 /**
- * 37. Bitwise AND nested chain
+ * 38. Bitwise AND nested chain
  * "8 & 6 & 1" => 0
  */
 type ExprBitwiseAndNested = Expect<Equal<TypeExpr<"8 & 6 & 1">, 0>>;
 
 /**
- * 38. Bitwise OR
+ * 39. Bitwise OR
  * "5 | 3" => 7
  */
 type ExprBitwiseOr = Expect<Equal<TypeExpr<"5 | 3">, 7>>;
 
 /**
- * 39. Bitwise OR chain
+ * 40. Bitwise OR chain
  * "1 | 2 | 4" => 7
  */
 type ExprBitwiseOrChain = Expect<Equal<TypeExpr<"1 | 2 | 4">, 7>>;
 
 /**
- * 40. Bitwise OR with zero
+ * 41. Bitwise OR with zero
  * "0 | 7" => 7
  */
 type ExprBitwiseOrZero = Expect<Equal<TypeExpr<"0 | 7">, 7>>;
 
 /**
- * 41. Mixed OR and AND
+ * 42. Mixed OR and AND
  * "4 & 1 | 2" => 2
  */
 type ExprMixedPrecedence = Expect<Equal<TypeExpr<"4 & 1 | 2">, 2>>;
 
 /**
- * 42. Bitwise OR multiple operands
+ * 43. Bitwise OR multiple operands
  * "0 | 1 | 8" => 9
  */
 type ExprBitwiseOrMulti = Expect<Equal<TypeExpr<"0 | 1 | 8">, 9>>;
 
 /**
- * 43. Simple comparison
+ * 44. Simple comparison
  * "3 > 2" => true
  */
 type ExprSimpleComparison = Expect<Equal<TypeExpr<"3 > 2">, true>>;
 
 /**
- * 44. Equality with arithmetic
+ * 45. Equality with arithmetic
  * "3 + 2 == 5" => true
  */
 type ExprEquality = Expect<Equal<TypeExpr<"3 + 2 == 5">, true>>;
 
 /**
- * 45. Ternary conditional
+ * 46. Ternary conditional
  * "1 > 2 ? 8 : 9" => 9
  */
 type ExprTernary = Expect<Equal<TypeExpr<"1 > 2 ? 8 : 9">, 9>>;
+
+/**
+ * 47. Conditional true branch
+ * "2 == 2 ? 10 : 20" => 10
+ */
+type ExprTernaryTrue = Expect<Equal<TypeExpr<"2 == 2 ? 10 : 20">, 10>>;
+
+/**
+ * 48. Conditional false branch
+ * "2 < 1 ? 10 : 20" => 20
+ */
+type ExprTernaryFalse = Expect<Equal<TypeExpr<"2 < 1 ? 10 : 20">, 20>>;
+
+/**
+ * 49. Nested ternary
+ * "1 > 2 ? 1 : 3 > 2 ? 2 : 3" => 2
+ */
+type ExprNestedTernary = Expect<
+  Equal<TypeExpr<"1 > 2 ? 1 : 3 > 2 ? 2 : 3">, 2>
+>;

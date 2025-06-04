@@ -341,3 +341,27 @@ type EvalEquality = Expect<Equal<Evaluate<"==(+(n:3,n:2),n:5)">, true>>;
  * "?:(>(n:1,n:2),n:8,n:9)" => 9
  */
 type EvalTernary = Expect<Equal<Evaluate<"?:(>(n:1,n:2),n:8,n:9)">, 9>>;
+
+/**
+ * 49. Ternary true branch
+ * "?:(==(n:2,n:2),n:10,n:20)" => 10
+ */
+type EvalTernaryTrue = Expect<
+  Equal<Evaluate<"?:(==(n:2,n:2),n:10,n:20)">, 10>
+>;
+
+/**
+ * 50. Ternary false branch
+ * "?:(<(n:2,n:1),n:10,n:20)" => 20
+ */
+type EvalTernaryFalse = Expect<
+  Equal<Evaluate<"?:(<(n:2,n:1),n:10,n:20)">, 20>
+>;
+
+/**
+ * 51. Nested ternary
+ * "?:(>(n:1,n:2),n:1,?:(>(n:3,n:2),n:2,n:3))" => 2
+ */
+type EvalNestedTernary = Expect<
+  Equal<Evaluate<"?:(>(n:1,n:2),n:1,?:(>(n:3,n:2),n:2,n:3))">, 2>
+>;
