@@ -326,15 +326,15 @@ type EvalBitwiseOrSymmetric = Expect<Equal<Evaluate<"|(n:2,n:4)">, 6>>;
 
 /**
  * 46. Simple greater than
- * ">(n:3,n:2)" => "true"
+ * ">(n:3,n:2)" => true
  */
-type EvalGreaterThan = Expect<Equal<Evaluate<">(n:3,n:2)">, "true">>;
+type EvalGreaterThan = Expect<Equal<Evaluate<">(n:3,n:2)">, true>>;
 
 /**
  * 47. Equality comparison
- * "==(+(n:3,n:2),n:5)" => "true"
+ * "==(+(n:3,n:2),n:5)" => true
  */
-type EvalEquality = Expect<Equal<Evaluate<"==(+(n:3,n:2),n:5)">, "true">>;
+type EvalEquality = Expect<Equal<Evaluate<"==(+(n:3,n:2),n:5)">, true>>;
 
 /**
  * 48. Ternary evaluation

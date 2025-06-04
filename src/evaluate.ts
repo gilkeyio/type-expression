@@ -167,7 +167,7 @@ type EvaluatePow<S extends string> = SplitTopLevel<S> extends [infer L, infer R]
   ? Pow<Evaluate<Trim<Extract<L, string>>>, Evaluate<Trim<Extract<R, string>>>>
   : never;
 
-type BitToBool<B extends Bit> = B extends 1 ? "true" : "false";
+type BitToBool<B extends Bit> = B extends 1 ? true : false;
 
 type EvaluateLt<S extends string> = SplitTopLevel<S> extends [infer L, infer R]
   ? Evaluate<Trim<Extract<L, string>>> extends infer A
@@ -235,8 +235,8 @@ type EvaluateNeq<S extends string> = SplitTopLevel<S> extends [infer L, infer R]
       ? Evaluate<Trim<Extract<R, string>>> extends infer B
         ? B extends number
           ? Eq<A, B> extends 1
-            ? "false"
-            : "true"
+            ? false
+            : true
           : never
         : never
       : never
@@ -247,7 +247,7 @@ type EvaluateTernary<S extends string> = SplitTopLevel<S> extends [
   infer Cond,
   infer Rest
 ] ? SplitTopLevel<Trim<Extract<Rest, string>>> extends [infer T, infer F]
-  ? Evaluate<Trim<Extract<Cond, string>>> extends "true"
+  ? Evaluate<Trim<Extract<Cond, string>>> extends true
     ? Evaluate<Trim<Extract<T, string>>>
     : Evaluate<Trim<Extract<F, string>>>
   : never
