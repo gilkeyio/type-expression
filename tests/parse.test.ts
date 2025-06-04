@@ -270,3 +270,25 @@ type ParseBitwiseOrMulti = Expect<
  * "2 | 4" => "|(n:2,n:4)"
  */
 type ParseBitwiseOrPair = Expect<Equal<ToAstString<"2 | 4">, "|(n:2,n:4)">>;
+
+/**
+ * 43. Simple comparison
+ * "3 > 2" => ">(n:3,n:2)"
+ */
+type ParseSimpleComparison = Expect<Equal<ToAstString<"3 > 2">, ">(n:3,n:2)">>;
+
+/**
+ * 44. Equality comparison with arithmetic
+ * "3 + 2 == 5" => "==(+(n:3,n:2),n:5)"
+ */
+type ParseEqualityComparison = Expect<
+  Equal<ToAstString<"3 + 2 == 5">, "==(+(n:3,n:2),n:5)">
+>;
+
+/**
+ * 45. Ternary expression
+ * "1 > 2 ? 8 : 9" => "?:(>(n:1,n:2),n:8,n:9)"
+ */
+type ParseTernary = Expect<
+  Equal<ToAstString<"1 > 2 ? 8 : 9">, "?:(>(n:1,n:2),n:8,n:9)">
+>;

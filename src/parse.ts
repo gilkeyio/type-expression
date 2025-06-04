@@ -157,7 +157,54 @@ type ParseBitOrRest<LhsAst extends string, T extends TokenList> = T extends [
     : [LhsAst, T]
   : [LhsAst, T]
 : [LhsAst, T];
-type ParseExpression<T extends TokenList> = ParseBitOr<T>;
+type CompareOperator = "<" | "<=" | ">" | ">=" | "==" | "!=";
+
+type ParseComparison<T extends TokenList> = ParseBitOr<T> extends [
+  infer FirstAst,
+  infer Tail1 extends TokenList
+] ? (FirstAst extends string ? ParseComparisonRest<FirstAst, Tail1> : never) : never;
+
+type ParseComparisonRest<LhsAst extends string, T extends TokenList> = T extends [
+  infer H,
+  ...infer R extends TokenList
+] ? H extends OperatorToken
+  ? H["value"] extends CompareOperator
+    ? ParseBitOr<R> extends [infer RhsAst, infer Tail2 extends TokenList]
+      ? RhsAst extends string
+        ? ParseComparisonRest<`${H["value"]}(${LhsAst},${RhsAst})`, Tail2>
+        : never
+      : never
+    : [LhsAst, T]
+  : [LhsAst, T]
+: [LhsAst, T];
+
+type ParseTernary<T extends TokenList> = ParseComparison<T> extends [
+  infer CondAst,
+  infer Tail1 extends TokenList
+] ? CondAst extends string
+  ? Tail1 extends [infer Q, ...infer R1 extends TokenList]
+    ? Q extends OperatorToken
+      ? Q["value"] extends "?"
+        ? ParseTernary<R1> extends [infer TrueAst, infer Tail2 extends TokenList]
+          ? Tail2 extends [infer C, ...infer R2 extends TokenList]
+            ? C extends OperatorToken
+              ? C["value"] extends ":"
+                ? ParseTernary<R2> extends [infer FalseAst, infer Tail3 extends TokenList]
+                  ? FalseAst extends string
+                    ? [`?:(${CondAst},${TrueAst & string},${FalseAst & string})`, Tail3]
+                    : never
+                  : never
+                : never
+              : never
+            : never
+          : never
+        : [CondAst, Tail1]
+      : [CondAst, Tail1]
+    : [CondAst, Tail1]
+  : never
+: never;
+
+type ParseExpression<T extends TokenList> = ParseTernary<T>;
 
 export type ToAstString<S extends string> = Tokenize<S> extends infer TK
   ? TK extends TokenList

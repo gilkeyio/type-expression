@@ -1,6 +1,22 @@
 
 /** Operators we allow */
-type Operator = "+" | "-" | "*" | "/" | "%" | "^" | "&" | "|";
+type Operator =
+  | "+"
+  | "-"
+  | "*"
+  | "/"
+  | "%"
+  | "^"
+  | "&"
+  | "|"
+  | "<"
+  | "<="
+  | ">"
+  | ">="
+  | "=="
+  | "!="
+  | "?"
+  | ":";
 
 /** Single-character whitespace, for trimming input */
 type Whitespace = " " | "\n" | "\r" | "\t";
@@ -68,11 +84,27 @@ type TokenizeOne<S extends string> = TrimLeft<S> extends ""
   ? C extends Digit
     ? // consume a number starting with digit C
       TokenizeNumber<Rest, C>
-    : // single-character operator or paren?
-    C extends Operator
-    ? [{ type: "operator"; value: C }, Rest]
     : C extends "(" | ")"
     ? [{ type: "paren"; value: C }, Rest]
+    : // operators, including multi-character tokens
+    C extends "<"
+    ? Rest extends `=${infer R2}`
+      ? [{ type: "operator"; value: "<=" }, R2]
+      : [{ type: "operator"; value: "<" }, Rest]
+    : C extends ">"
+    ? Rest extends `=${infer R2}`
+      ? [{ type: "operator"; value: ">=" }, R2]
+      : [{ type: "operator"; value: ">" }, Rest]
+    : C extends "="
+    ? Rest extends `=${infer R2}`
+      ? [{ type: "operator"; value: "==" }, R2]
+      : never
+    : C extends "!"
+    ? Rest extends `=${infer R2}`
+      ? [{ type: "operator"; value: "!=" }, R2]
+      : never
+    : C extends "?" | ":" | "+" | "-" | "*" | "/" | "%" | "^" | "&" | "|"
+    ? [{ type: "operator"; value: C }, Rest]
     : // unknown char => error
       never
   : // can't match => error
