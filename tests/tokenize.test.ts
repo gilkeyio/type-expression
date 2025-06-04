@@ -6,7 +6,7 @@ import { Expect, Equal } from "./test_utilities";
  * 1. Single literal
  * "5" => [{ type: "number"; value: "5" }]
  */
-type Tokenize1 = Expect<
+type TokenSingleLiteral = Expect<
   Equal<
     Tokenize<"5">,
     [
@@ -22,7 +22,7 @@ type Tokenize1 = Expect<
  * 2. Double digit number
  * "42" => [{ type: "number"; value: "42" }]
  */
-type Tokenize2 = Expect<
+type TokenDoubleDigitNumber = Expect<
   Equal<Tokenize<"42">, [{ type: "number"; value: "42" }]>
 >;
 
@@ -34,7 +34,7 @@ type Tokenize2 = Expect<
  *   { type: "number"; value: "3" }
  * ]
  */
-type Tokenize3 = Expect<
+type TokenSimpleSum = Expect<
   Equal<
     Tokenize<"5 + 3">,
     [
@@ -53,7 +53,7 @@ type Tokenize3 = Expect<
  *   { type: "number"; value: "4" }
  * ]
  */
-type Tokenize4 = Expect<
+type TokenSimpleSubtraction = Expect<
   Equal<
     Tokenize<"10 - 4">,
     [
@@ -72,7 +72,7 @@ type Tokenize4 = Expect<
  *   { type: "number"; value: "7" }
  * ]
  */
-type Tokenize5 = Expect<
+type TokenSimpleMultiplication = Expect<
   Equal<
     Tokenize<"6 * 7">,
     [
@@ -91,7 +91,7 @@ type Tokenize5 = Expect<
  *   { type: "number"; value: "5" }
  * ]
  */
-type Tokenize6 = Expect<
+type TokenSimpleDivision = Expect<
   Equal<
     Tokenize<"20 / 5">,
     [
@@ -110,7 +110,7 @@ type Tokenize6 = Expect<
  *   { type: "number"; value: "3" }
  * ]
  */
-type Tokenize7 = Expect<
+type TokenModuloOperation = Expect<
   Equal<
     Tokenize<"7 % 3">,
     [
@@ -129,7 +129,7 @@ type Tokenize7 = Expect<
  *   { type: "number"; value: "3" }
  * ]
  */
-type Tokenize8 = Expect<
+type TokenExponentiation = Expect<
   Equal<
     Tokenize<"2 ^ 3">,
     [
@@ -150,7 +150,7 @@ type Tokenize8 = Expect<
  *   { type: "number"; value: "2" }
  * ]
  */
-type Tokenize9 = Expect<
+type TokenMixedOperators = Expect<
   Equal<
     Tokenize<"5 + 3 * 2">,
     [
@@ -175,7 +175,7 @@ type Tokenize9 = Expect<
  *   { type: "number"; value: "2" }
  * ]
  */
-type Tokenize10 = Expect<
+type TokenParenthesesOrder = Expect<
   Equal<
     Tokenize<"(5 + 3) * 2">,
     [
@@ -200,7 +200,7 @@ type Tokenize10 = Expect<
  *   { type: "number"; value: "2" }
  * ]
  */
-type Tokenize11 = Expect<
+type TokenMultipleExponentiations = Expect<
   Equal<
     Tokenize<"2 ^ 3 ^ 2">,
     [
@@ -229,7 +229,7 @@ type Tokenize11 = Expect<
  *   { type: "paren"; value: ")" }
  * ]
  */
-type Tokenize12 = Expect<
+type TokenMultipleParentheses = Expect<
   Equal<
     Tokenize<"(2 + 3) * (4 + 5)">,
     [
@@ -262,7 +262,7 @@ type Tokenize12 = Expect<
  *   { type: "number"; value: "5" }
  * ]
  */
-type Tokenize13 = Expect<
+type TokenComplexMultiplication = Expect<
   Equal<
     Tokenize<"2 * (3 + 4) * 5">,
     [
@@ -283,7 +283,7 @@ type Tokenize13 = Expect<
  * 14. Decimal number literal
  * "3.14" => [{ type: "number"; value: "3.14" }]
  */
-type Tokenize14 = Expect<
+type TokenDecimalLiteral = Expect<
   Equal<Tokenize<"3.14">, [{ type: "number"; value: "3.14" }]>
 >;
 
@@ -295,7 +295,7 @@ type Tokenize14 = Expect<
  *   { type: "number"; value: "2.5" }
  * ]
  */
-type Tokenize15 = Expect<
+type TokenDecimalSum = Expect<
   Equal<
     Tokenize<"1.5 + 2.5">,
     [
@@ -314,7 +314,7 @@ type Tokenize15 = Expect<
  *   { type: "number"; value: "3.5" }
  * ]
  */
-type Tokenize16 = Expect<
+type TokenDecimalMultiplication = Expect<
   Equal<
     Tokenize<"2 * 3.5">,
     [
@@ -333,7 +333,7 @@ type Tokenize16 = Expect<
  *   { type: "number"; value: "2.5" }
  * ]
  */
-type Tokenize17 = Expect<
+type TokenDecimalDivision = Expect<
   Equal<
     Tokenize<"10 / 2.5">,
     [
@@ -352,7 +352,7 @@ type Tokenize17 = Expect<
  *   { type: "number"; value: "2" }
  * ]
  */
-type Tokenize18 = Expect<
+type TokenDecimalExponentiation = Expect<
   Equal<
     Tokenize<"2.5 ^ 2">,
     [
@@ -375,7 +375,7 @@ type Tokenize18 = Expect<
  *   { type: "number"; value: "2" }
  * ]
  */
-type Tokenize19 = Expect<
+type TokenDecimalParentheses = Expect<
   Equal<
     Tokenize<"(1.5 + 0.5) * 2">,
     [
@@ -400,7 +400,7 @@ type Tokenize19 = Expect<
  *   { type: "number"; value: "1.5" }
  * ]
  */
-type Tokenize20 = Expect<
+type TokenMixedDecimalInteger = Expect<
   Equal<
     Tokenize<"3 + 2 * 1.5">,
     [
@@ -420,7 +420,7 @@ type Tokenize20 = Expect<
  *   { type: "number"; value: "5" }
  * ]
  */
-type Tokenize21 = Expect<
+type TokenUnaryMinus = Expect<
   Equal<
     Tokenize<"-5">,
     [{ type: "operator"; value: "-" }, { type: "number"; value: "5" }]
@@ -434,7 +434,7 @@ type Tokenize21 = Expect<
  *   { type: "number"; value: "5" }
  * ]
  */
-type Tokenize22 = Expect<
+type TokenUnaryPlus = Expect<
   Equal<
     Tokenize<"+5">,
     [{ type: "operator"; value: "+" }, { type: "number"; value: "5" }]
@@ -448,7 +448,7 @@ type Tokenize22 = Expect<
  *   { type: "number"; value: "3.14" }
  * ]
  */
-type Tokenize23 = Expect<
+type TokenUnaryMinusDecimal = Expect<
   Equal<
     Tokenize<"-3.14">,
     [{ type: "operator"; value: "-" }, { type: "number"; value: "3.14" }]
@@ -464,7 +464,7 @@ type Tokenize23 = Expect<
  *   { type: "number"; value: "3" }
  * ]
  */
-type Tokenize24 = Expect<
+type TokenUnaryMinusExpression = Expect<
   Equal<
     Tokenize<"5 + -3">,
     [
@@ -485,7 +485,7 @@ type Tokenize24 = Expect<
  *   { type: "number"; value: "2" }
  * ]
  */
-type Tokenize25 = Expect<
+type TokenUnaryMinusMultiplication = Expect<
   Equal<
     Tokenize<"-5 * 2">,
     [
@@ -508,7 +508,7 @@ type Tokenize25 = Expect<
  *   { type: "paren"; value: ")" }
  * ]
  */
-type Tokenize26 = Expect<
+type TokenUnaryMinusParentheses = Expect<
   Equal<
     Tokenize<"-(5 + 2)">,
     [
@@ -533,7 +533,7 @@ type Tokenize26 = Expect<
  *   { type: "paren"; value: ")" }
  * ]
  */
-type Tokenize27 = Expect<
+type TokenUnaryMinusSpaceParentheses = Expect<
   Equal<
     Tokenize<"- (5 + 2)">,
     [
@@ -555,7 +555,7 @@ type Tokenize27 = Expect<
  *   { type: "number"; value: "5" }
  * ]
  */
-type Tokenize28 = Expect<
+type TokenDoubleUnaryMinus = Expect<
   Equal<
     Tokenize<"- -5">,
     [
@@ -574,7 +574,7 @@ type Tokenize28 = Expect<
  *   { type: "number"; value: "5" }
  * ]
  */
-type Tokenize29 = Expect<
+type TokenDoubleUnaryPlus = Expect<
   Equal<
     Tokenize<"+ +5">,
     [
@@ -593,7 +593,7 @@ type Tokenize29 = Expect<
  *   { type: "number"; value: "5" }
  * ]
  */
-type Tokenize30 = Expect<
+type TokenUnaryPlusMinus = Expect<
   Equal<
     Tokenize<"+-5">,
     [
@@ -612,7 +612,7 @@ type Tokenize30 = Expect<
  *   { type: "number"; value: "5" }
  * ]
  */
-type Tokenize31 = Expect<
+type TokenUnaryMinusPlus = Expect<
   Equal<
     Tokenize<"-+5">,
     [
@@ -634,7 +634,7 @@ type Tokenize31 = Expect<
  *   { type: "number"; value: "4" }
  * ]
  */
-type Tokenize32 = Expect<
+type TokenUnaryMinusComplex = Expect<
   Equal<
     Tokenize<"2 * -3 + 4">,
     [
@@ -659,7 +659,7 @@ type Tokenize32 = Expect<
  *   { type: "number"; value: "4" }
  * ]
  */
-type Tokenize33 = Expect<
+type TokenUnaryPlusComplex = Expect<
   Equal<
     Tokenize<"2 * +3 + 4">,
     [
@@ -680,7 +680,7 @@ type Tokenize33 = Expect<
  *   { type: "number"; value: "3" }
  * ]
  */
-type Tokenize34 = Expect<
+type TokenBitwiseAnd = Expect<
   Equal<
     Tokenize<"5 & 3">,
     [
