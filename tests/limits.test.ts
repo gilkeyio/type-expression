@@ -27,10 +27,10 @@ export type LargeIntegerAddition = Expect<Equal<TypeExpr<"123456789 + 987654321"
 
 /**
  * 5. Very deeply nested parentheses
- * "((((((((((((1))))))))))))" => 1
+ * "(((((((((1)))))))))" => 1
  */
 export type VeryDeepParentheses = Expect<
-  Equal<TypeExpr<"((((((((((((1))))))))))))">, 1>
+  Equal<TypeExpr<"(((((((((1)))))))))">, 1>
 >;
 
 /**

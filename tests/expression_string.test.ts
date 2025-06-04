@@ -258,3 +258,21 @@ type ExprMixedPrecedence = Expect<Equal<TypeExpr<"4 & 1 | 2">, 2>>;
  * "0 | 1 | 8" => 9
  */
 type ExprBitwiseOrMulti = Expect<Equal<TypeExpr<"0 | 1 | 8">, 9>>;
+
+/**
+ * 43. Simple comparison
+ * "3 > 2" => "true"
+ */
+type ExprSimpleComparison = Expect<Equal<TypeExpr<"3 > 2">, "true">>;
+
+/**
+ * 44. Equality with arithmetic
+ * "3 + 2 == 5" => "true"
+ */
+type ExprEquality = Expect<Equal<TypeExpr<"3 + 2 == 5">, "true">>;
+
+/**
+ * 45. Ternary conditional
+ * "1 > 2 ? 8 : 9" => 9
+ */
+type ExprTernary = Expect<Equal<TypeExpr<"1 > 2 ? 8 : 9">, 9>>;
