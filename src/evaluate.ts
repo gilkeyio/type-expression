@@ -61,6 +61,15 @@ type BitwiseOr<A extends number, B extends number> = Subtract<
   BitwiseAnd<A, B>
 >;
 
+type BitwiseXor<A extends number, B extends number> = BitwiseOr<
+  A,
+  B
+> extends infer OR extends number
+  ? BitwiseAnd<A, B> extends infer AND extends number
+    ? Subtract<OR, AND>
+    : never
+  : never;
+
 /**
  * The *key* is to handle +(...) and -(...) with a single pattern each,
  * then decide whether it’s unary or binary based on SplitTopLevel.
@@ -84,6 +93,8 @@ export type Evaluate<S extends string> = S extends `n:${infer N extends number}`
   ? EvaluateMod<Body>
   : S extends `&(${infer Body})`
   ? EvaluateAnd<Body>
+  : S extends `^(${infer Body})`
+  ? EvaluateXor<Body>
   : S extends `|(${infer Body})`
   ? EvaluateOr<Body>
   : S extends `<(${infer Body})`
@@ -151,6 +162,13 @@ type EvaluateMod<S extends string> = SplitTopLevel<S> extends [infer L, infer R]
 
 type EvaluateAnd<S extends string> = SplitTopLevel<S> extends [infer L, infer R]
   ? BitwiseAnd<
+      Evaluate<Trim<Extract<L, string>>>,
+      Evaluate<Trim<Extract<R, string>>>
+    >
+  : never;
+
+type EvaluateXor<S extends string> = SplitTopLevel<S> extends [infer L, infer R]
+  ? BitwiseXor<
       Evaluate<Trim<Extract<L, string>>>,
       Evaluate<Trim<Extract<R, string>>>
     >

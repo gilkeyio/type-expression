@@ -319,3 +319,9 @@ type ParseNestedTernary = Expect<
     "?:(>(n:1,n:2),n:1,?:(>(n:3,n:2),n:2,n:3))"
   >
 >;
+
+/**
+ * 49. Bitwise XOR
+ * "5 ^ 2" => "^(n:5,n:2)"
+ */
+type ParseBitwiseXor = Expect<Equal<ToAstString<"5 ^ 2">, "^(n:5,n:2)">>;

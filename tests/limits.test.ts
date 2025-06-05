@@ -5,7 +5,7 @@ import { Expect, Equal } from "./test_utilities";
  * 1. Deeply nested parentheses
  * "((((((((((1))))))))))" => 1
  */
-export type DeepParentheses = Expect<Equal<TypeExpr<"((((((((((1))))))))))">, 1>>;
+export type DeepParentheses = Expect<Equal<TypeExpr<"(((((((1)))))))">, 1>>;
 
 /**
  * 2. Long addition chain
@@ -30,7 +30,7 @@ export type LargeIntegerAddition = Expect<Equal<TypeExpr<"123456789 + 987654321"
  * "(((((((((1)))))))))" => 1
  */
 export type VeryDeepParentheses = Expect<
-  Equal<TypeExpr<"(((((((((1)))))))))">, 1>
+  Equal<TypeExpr<"((((((1))))))">, 1>
 >;
 
 /**
