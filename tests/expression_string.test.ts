@@ -340,3 +340,15 @@ type ExprXorLeftAssoc = Expect<Equal<TypeExpr<"1 ^ 2 ^ 4">, 7>>
  * Explanation: 0b11111111 ^ 0b10101010 = 0b01010101 = 85
  */
 type ExprXorHigh = Expect<Equal<TypeExpr<"255 ^ 170">, 85>>
+
+/**
+ * 57. Left shift
+ * "1 << 3" => 8
+ */
+type ExprLeftShift = Expect<Equal<TypeExpr<"1 << 3">, 8>>
+
+/**
+ * 58. Right shift
+ * "8 >> 2" => 2
+ */
+type ExprRightShift = Expect<Equal<TypeExpr<"8 >> 2">, 2>>

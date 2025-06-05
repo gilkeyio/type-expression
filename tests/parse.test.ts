@@ -325,3 +325,15 @@ type ParseNestedTernary = Expect<
  * "5 ^ 2" => "^(n:5,n:2)"
  */
 type ParseBitwiseXor = Expect<Equal<ToAstString<"5 ^ 2">, "^(n:5,n:2)">>;
+
+/**
+ * 50. Left shift
+ * "1 << 3" => "<<(n:1,n:3)"
+ */
+type ParseLeftShift = Expect<Equal<ToAstString<"1 << 3">, "<<(n:1,n:3)">>;
+
+/**
+ * 51. Right shift
+ * "8 >> 2" => ">>(n:8,n:2)"
+ */
+type ParseRightShift = Expect<Equal<ToAstString<"8 >> 2">, ">>(n:8,n:2)">>;

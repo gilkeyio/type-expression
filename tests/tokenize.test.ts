@@ -884,3 +884,41 @@ type TokenXor = Expect<
     ]
   >
 >;
+
+/**
+ * 44. Left shift
+ * "1 << 3" => [
+ *   { type: "number"; value: 1 },
+ *   { type: "operator"; value: "<<" },
+ *   { type: "number"; value: 3 }
+ * ]
+ */
+type TokenLeftShift = Expect<
+  Equal<
+    Tokenize<"1 << 3">,
+    [
+      { type: "number"; value: 1 },
+      { type: "operator"; value: "<<" },
+      { type: "number"; value: 3 }
+    ]
+  >
+>;
+
+/**
+ * 45. Right shift
+ * "8 >> 2" => [
+ *   { type: "number"; value: 8 },
+ *   { type: "operator"; value: ">>" },
+ *   { type: "number"; value: 2 }
+ * ]
+ */
+type TokenRightShift = Expect<
+  Equal<
+    Tokenize<"8 >> 2">,
+    [
+      { type: "number"; value: 8 },
+      { type: "operator"; value: ">>" },
+      { type: "number"; value: 2 }
+    ]
+  >
+>;

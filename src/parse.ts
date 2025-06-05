@@ -117,7 +117,26 @@ type ParseAddSubRest<LhsAst extends string, T extends TokenList> = T extends [
   : // no more tokens => done
     [LhsAst, T];
 
-type ParseBitAnd<T extends TokenList> = ParseAddSub<T> extends [
+type ParseShift<T extends TokenList> = ParseAddSub<T> extends [
+  infer FirstAst,
+  infer Tail1 extends TokenList
+] ? (FirstAst extends string ? ParseShiftRest<FirstAst, Tail1> : never) : never;
+
+type ParseShiftRest<LhsAst extends string, T extends TokenList> = T extends [
+  infer H,
+  ...infer R extends TokenList
+] ? H extends OperatorToken
+  ? H["value"] extends "<<" | ">>"
+    ? ParseAddSub<R> extends [infer RhsAst, infer Tail2 extends TokenList]
+      ? RhsAst extends string
+        ? ParseShiftRest<`${H["value"]}(${LhsAst},${RhsAst})`, Tail2>
+        : never
+      : never
+    : [LhsAst, T]
+  : [LhsAst, T]
+: [LhsAst, T];
+
+type ParseBitAnd<T extends TokenList> = ParseShift<T> extends [
   infer FirstAst,
   infer Tail1 extends TokenList
 ] ? (FirstAst extends string
@@ -140,7 +159,7 @@ type ParseBitAndRest<LhsAst extends string, T extends TokenList> = T extends [
   ...infer R extends TokenList
 ] ? H extends OperatorToken
   ? H["value"] extends "&"
-    ? ParseAddSub<R> extends [infer RhsAst, infer Tail2 extends TokenList]
+    ? ParseShift<R> extends [infer RhsAst, infer Tail2 extends TokenList]
       ? RhsAst extends string
         ? ParseBitAndRest<`&(${LhsAst},${RhsAst})`, Tail2>
         : never
