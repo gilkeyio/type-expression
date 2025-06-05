@@ -44,17 +44,17 @@ type ParseExponent<T extends TokenList> = ParsePrimary<T> extends [
   ? BaseAst extends string
     ? Tail1 extends [infer H, ...infer R extends TokenList]
       ? H extends OperatorToken
-        ? H["value"] extends "^"
+        ? H["value"] extends "**"
           ? // parse exponent (right-associative)
             ParseExponent<R> extends [
               infer RightAst,
               infer Tail2 extends TokenList
             ]
             ? RightAst extends string
-              ? [`^(${BaseAst},${RightAst})`, Tail2]
+              ? [`**(${BaseAst},${RightAst})`, Tail2]
               : never
             : never
-          : // next operator not '^' => done
+          : // next operator not '**' => done
             [BaseAst, Tail1]
         : // next token not operator => done
           [BaseAst, Tail1]

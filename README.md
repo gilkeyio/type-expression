@@ -1,6 +1,6 @@
 # TypeExpression
 
-**TypeExpression** is a zero-runtime, type-level expression engine for TypeScript. It tokenises an arithmetic string literal, builds an abstract syntax tree (AST), and evaluates the result—entirely during compilation—so the final value is available as a literal type.
+**TypeExpression** is a zero-runtime, type-level expression engine for TypeScript. It tokenises an arithmetic string literal, builds an abstract syntax tree (AST), and evaluates the result, entirely during compilation, so the final value is available as a literal type.
 
 ## Why?
 
@@ -41,12 +41,12 @@ type Height = TypeExpr<"8">;          // 8
 type Area   = TypeExpr<"6 * 8">;      // 48 ✅
 
 ```
-The result Area is literally the number 48 in the type system — you can use it to define array lengths, tuple sizes, conditional types, and more.
+The result Area is literally the number 48 in the type system - you can use it to define array lengths, tuple sizes, conditional types, and more.
 
 ## More examples
 
 ```typescript
-type A = TypeExpr<"2 ^ 3 ^ 2">;       // 512
+type A = TypeExpr<"2 ** 3 ** 2">;     // 512
 type B = TypeExpr<"(5 + 3) * 2">;     // 16
 type C = TypeExpr<"-(7 % 4) * 3">;    // -9
 type D = TypeExpr<"5 & 3">;           // 1
@@ -75,15 +75,13 @@ type Ast    = ToAstString<"3 * (1 + 2)">;
 type Value  = Evaluate<Ast>;          // 9
 ```
 
-## Limitations & roadmap
+## Limitations
 - Relies on TypeScript’s recursive-type depth; extremely large expressions may hit compiler limits.
 - Division is floating-point; exact rationals aren’t supported (yet).
-- Planned: publish to npm under type-expression, add bigint support, CI tests.
-- The type testing library is interesting; might be worth exploring more on its own.
 
 ## Contributing
 
-PRs and suggestions welcome — especially for performance or language-feature ideas inspired by the wider type-level community.
+PRs and suggestions welcome, especially for performance or language-feature ideas inspired by the wider type-level community.
 
 ## License
 

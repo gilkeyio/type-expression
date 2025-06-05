@@ -45,9 +45,9 @@ type ExprModuloOperation = Expect<Equal<TypeExpr<"7 % 3">, 1>>;
 
 /**
  * 8. Exponentiation
- * "2 ^ 3" => 8
+ * "2 ** 3" => 8
  */
-type ExprExponentiation = Expect<Equal<TypeExpr<"2 ^ 3">, 8>>;
+type ExprExponentiation = Expect<Equal<TypeExpr<"2 ** 3">, 8>>;
 
 /**
  * 9. Mixed operators, shallow nesting
@@ -63,9 +63,9 @@ type ExprParenthesesOrder = Expect<Equal<TypeExpr<"(5 + 3) * 2">, 16>>;
 
 /**
  * 11. Multiple exponentiations
- * "2 ^ 3 ^ 2" => 512
+ * "2 ** 3 ** 2" => 512
  */
-type ExprMultipleExponentiations = Expect<Equal<TypeExpr<"2 ^ 3 ^ 2">, 512>>;
+type ExprMultipleExponentiations = Expect<Equal<TypeExpr<"2 ** 3 ** 2">, 512>>;
 
 /**
  * 12. Multiple parentheses with different operations
@@ -105,9 +105,9 @@ type ExprDecimalDivision = Expect<Equal<TypeExpr<"10 / 2.5">, 4>>;
 
 /**
  * 18. Decimal exponentiation
- * "2.5 ^ 2" => 6.25
+ * "2.5 ** 2" => 6.25
  */
-type ExprDecimalExponentiation = Expect<Equal<TypeExpr<"2.5 ^ 2">, 6.25>>;
+type ExprDecimalExponentiation = Expect<Equal<TypeExpr<"2.5 ** 2">, 6.25>>;
 
 /**
  * 19. Decimal parentheses

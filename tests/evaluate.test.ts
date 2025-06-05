@@ -147,9 +147,9 @@ type EvalDecimalDivision = Expect<Equal<Evaluate<"/(n:10,n:2.5)">, Divide<10, 2.
 
 /**
  * 18. Decimal power
- * "^(n:2.5,n:2)" => Pow<2.5, 2>
+ * "**(n:2.5,n:2)" => Pow<2.5, 2>
  */
-type EvalDecimalPower = Expect<Equal<Evaluate<"^(n:2.5,n:2)">, Pow<2.5, 2>>>;
+type EvalDecimalPower = Expect<Equal<Evaluate<"**(n:2.5,n:2)">, Pow<2.5, 2>>>;
 
 /**
  * 19. Decimal parentheses
