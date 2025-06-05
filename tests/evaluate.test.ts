@@ -371,3 +371,15 @@ type EvalNestedTernary = Expect<
  * "^(n:5,n:2)" => 7
  */
 type EvalBitwiseXor = Expect<Equal<Evaluate<"^(n:5,n:2)">, 7>>;
+
+/**
+ * 53. Left shift
+ * "<<(n:1,n:3)" => 8
+ */
+type EvalLeftShift = Expect<Equal<Evaluate<"<<(n:1,n:3)">, 8>>;
+
+/**
+ * 54. Right shift
+ * ">>(n:8,n:2)" => 2
+ */
+type EvalRightShift = Expect<Equal<Evaluate<">>(n:8,n:2)">, 2>>;

@@ -10,6 +10,8 @@ type Operator =
   | "&"
   | "^"
   | "|"
+  | "<<"
+  | ">>"
   | "<"
   | "<="
   | ">"
@@ -89,11 +91,15 @@ type TokenizeOne<S extends string> = TrimLeft<S> extends ""
     ? [{ type: "paren"; value: C }, Rest]
     : // operators, including multi-character tokens
     C extends "<"
-    ? Rest extends `=${infer R2}`
+    ? Rest extends `<${infer R2}`
+      ? [{ type: "operator"; value: "<<" }, R2]
+      : Rest extends `=${infer R2}`
       ? [{ type: "operator"; value: "<=" }, R2]
       : [{ type: "operator"; value: "<" }, Rest]
     : C extends ">"
-    ? Rest extends `=${infer R2}`
+    ? Rest extends `>${infer R2}`
+      ? [{ type: "operator"; value: ">>" }, R2]
+      : Rest extends `=${infer R2}`
       ? [{ type: "operator"; value: ">=" }, R2]
       : [{ type: "operator"; value: ">" }, Rest]
     : C extends "="

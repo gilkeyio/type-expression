@@ -340,3 +340,77 @@ type ExprXorLeftAssoc = Expect<Equal<TypeExpr<"1 ^ 2 ^ 4">, 7>>
  * Explanation: 0b11111111 ^ 0b10101010 = 0b01010101 = 85
  */
 type ExprXorHigh = Expect<Equal<TypeExpr<"255 ^ 170">, 85>>
+
+/**
+ * 57. Left shift
+ * "1 << 3" => 8
+ */
+type ExprLeftShift = Expect<Equal<TypeExpr<"1 << 3">, 8>>
+
+/**
+ * 58. Right shift
+ * "8 >> 2" => 2
+ */
+type ExprRightShift = Expect<Equal<TypeExpr<"8 >> 2">, 2>>
+
+/**
+ * 59. Left shift by zero
+ * "4 << 0" => 4
+ */
+type ExprLeftShiftZero = Expect<Equal<TypeExpr<"4 << 0">, 4>>
+
+/**
+ * 60. Right shift by zero
+ * "4 >> 0" => 4
+ */
+type ExprRightShiftZero = Expect<Equal<TypeExpr<"4 >> 0">, 4>>
+
+/**
+ * 61. Left shift a power of two
+ * "2 << 4" => 32
+ */
+type ExprLeftShiftPower = Expect<Equal<TypeExpr<"2 << 4">, 32>>
+
+/**
+ * 62. Right shift a power of two
+ * "64 >> 3" => 8
+ */
+type ExprRightShiftPower = Expect<Equal<TypeExpr<"64 >> 3">, 8>>
+
+/**
+ * 63. Left shift and right shift chain
+ * "1 << 4 >> 2" => (1 << 4) = 16, then 16 >> 2 = 4
+ */
+type ExprShiftChain = Expect<Equal<TypeExpr<"1 << 4 >> 2">, 4>>
+
+/**
+ * 64. Left shift with parentheses
+ * "1 << (1 << 1)" => 1 << 2 => 4
+ */
+type ExprLeftShiftNested = Expect<Equal<TypeExpr<"1 << (1 << 1)">, 4>>
+
+/**
+ * 65. Right shift with parentheses
+ * "32 >> (1 + 2)" => 32 >> 3 => 4
+ */
+type ExprRightShiftNested = Expect<Equal<TypeExpr<"32 >> (1 + 2)">, 4>>
+
+/**
+ * 66. Right shift a non-power-of-two number
+ * "19 >> 1" => 9
+ */
+type ExprRightShiftOdd = Expect<Equal<TypeExpr<"19 >> 1">, 9>>
+
+/**
+ * 67. Largest Left shift. (lower than 2 ^ 53 - 1)
+ * "1 << 52" => 4503599627370496
+ */
+type ExprLeftShiftMax = Expect<Equal<TypeExpr<"1 << 52">, 4503599627370496>>
+
+type blah = TypeExpr<"1 << 52">
+
+/**
+ * 68. Right shift to zero
+ * "1 >> 3" => 0
+ */
+type ExprRightShiftToZero = Expect<Equal<TypeExpr<"1 >> 3">, 0>>

@@ -70,6 +70,13 @@ type BitwiseXor<A extends number, B extends number> = BitwiseOr<
     : never
   : never;
 
+type LeftShift<A extends number, B extends number> = Multiply<A, Pow<2, B>>;
+
+type RightShift<A extends number, B extends number> = Divide<
+  Subtract<A, Mod<A, Pow<2, B>>>,
+  Pow<2, B>
+>;
+
 /**
  * The *key* is to handle +(...) and -(...) with a single pattern each,
  * then decide whether it’s unary or binary based on SplitTopLevel.
@@ -93,6 +100,10 @@ export type Evaluate<S extends string> = S extends `n:${infer N extends number}`
   ? EvaluateMod<Body>
   : S extends `&(${infer Body})`
   ? EvaluateAnd<Body>
+  : S extends `<<(${infer Body})`
+  ? EvaluateLeftShift<Body>
+  : S extends `>>(${infer Body})`
+  ? EvaluateRightShift<Body>
   : S extends `^(${infer Body})`
   ? EvaluateXor<Body>
   : S extends `|(${infer Body})`
@@ -162,6 +173,20 @@ type EvaluateMod<S extends string> = SplitTopLevel<S> extends [infer L, infer R]
 
 type EvaluateAnd<S extends string> = SplitTopLevel<S> extends [infer L, infer R]
   ? BitwiseAnd<
+      Evaluate<Trim<Extract<L, string>>>,
+      Evaluate<Trim<Extract<R, string>>>
+    >
+  : never;
+
+type EvaluateLeftShift<S extends string> = SplitTopLevel<S> extends [infer L, infer R]
+  ? LeftShift<
+      Evaluate<Trim<Extract<L, string>>>,
+      Evaluate<Trim<Extract<R, string>>>
+    >
+  : never;
+
+type EvaluateRightShift<S extends string> = SplitTopLevel<S> extends [infer L, infer R]
+  ? RightShift<
       Evaluate<Trim<Extract<L, string>>>,
       Evaluate<Trim<Extract<R, string>>>
     >

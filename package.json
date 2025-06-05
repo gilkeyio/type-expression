@@ -1,6 +1,6 @@
 {
   "name": "@gilkeyio/type-expression",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Compile-time type-level arithmetic expression evaluator for TypeScript",
   "types": "src/index.ts",
   "files": [
