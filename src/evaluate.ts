@@ -11,6 +11,7 @@ import type {
   LtOrEq,
   Eq,
 } from "ts-arithmetic";
+import { CompileTimeError } from "./error";
 
 /**
  * Helper: split a string `S` at the *first* top-level comma
@@ -81,7 +82,7 @@ type RightShift<A extends number, B extends number> = Divide<
  * The *key* is to handle +(...) and -(...) with a single pattern each,
  * then decide whether it’s unary or binary based on SplitTopLevel.
  */
-export type Evaluate<S extends string> = S extends `n:${infer N extends number}`
+type _Evaluate<S extends string> = S extends `n:${infer N extends number}`
   ? N
   : // ---- Handle "+(...)" unary or binary
   S extends `+(${infer Body})`
@@ -123,6 +124,12 @@ export type Evaluate<S extends string> = S extends `n:${infer N extends number}`
   : S extends `?:(${infer Body})`
   ? EvaluateTernary<Body>
   : never;
+
+export type Evaluate<S extends string> = _Evaluate<S> extends infer R
+  ? [R] extends [never]
+    ? CompileTimeError<`Could not evaluate expression '${S}'`>
+    : R
+  : CompileTimeError<`Could not evaluate expression '${S}'`>;
 
 // Now each operator’s “evaluate” function can do the split
 type EvaluatePlus<S extends string> = SplitTopLevel<S> extends [

@@ -5,6 +5,7 @@ import {
   Tokenize,
   TokenList,
 } from "./tokenize";
+import { CompileTimeError } from "./error";
 
 type ParsePrimary<T extends TokenList> = T extends [
   infer H,
@@ -245,14 +246,16 @@ type ParseTernary<T extends TokenList> = ParseComparison<T> extends [
 type ParseExpression<T extends TokenList> = ParseTernary<T>;
 
 export type ToAstString<S extends string> = Tokenize<S> extends infer TK
-  ? TK extends TokenList
+  ? TK extends CompileTimeError<infer M>
+    ? CompileTimeError<`Tokenize error: ${M}`>
+    : TK extends TokenList
     ? ParseExpression<TK> extends [infer Ast, infer Rem extends TokenList]
       ? Rem extends []
         ? Ast extends string
           ? Ast
-          : never
-        : never // leftover tokens => invalid
-      : never
-    : never
-  : never;
+          : CompileTimeError<"Invalid AST">
+        : CompileTimeError<"Unexpected tokens after expression">
+      : CompileTimeError<"Unable to parse expression">
+    : CompileTimeError<"Tokenize did not produce tokens">
+  : CompileTimeError<"Failed to tokenize">;
 

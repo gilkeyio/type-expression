@@ -1,4 +1,6 @@
 
+import { CompileTimeError } from "./error";
+
 /** Operators we allow */
 type Operator =
   | "+"
@@ -74,7 +76,7 @@ type TokenizeNumber<
   ? C extends NumberChar
     ? C extends "."
       ? HasDecimal extends true
-        ? never // Second decimal point is invalid
+        ? CompileTimeError<`Invalid number '${Acc}.' - multiple decimals`>
         : TokenizeNumber<Rest, `${Acc}${C}`, true>
       : TokenizeNumber<Rest, `${Acc}${C}`, HasDecimal>
     : [{ type: "number"; value: StrToNumber<Acc> }, S]
@@ -82,7 +84,7 @@ type TokenizeNumber<
 
 type TokenizeOne<S extends string> = TrimLeft<S> extends ""
   ? // nothing left => no token
-    never
+    CompileTimeError<"Unexpected end of input">
   : TrimLeft<S> extends `${infer C}${infer Rest}`
   ? C extends Digit
     ? // consume a number starting with digit C
@@ -105,11 +107,11 @@ type TokenizeOne<S extends string> = TrimLeft<S> extends ""
     : C extends "="
     ? Rest extends `=${infer R2}`
       ? [{ type: "operator"; value: "==" }, R2]
-      : never
+      : CompileTimeError<"Unexpected '='">
     : C extends "!"
     ? Rest extends `=${infer R2}`
       ? [{ type: "operator"; value: "!=" }, R2]
-      : never
+      : CompileTimeError<"Unexpected '!'">
     : C extends "*"
     ? Rest extends `*${infer R2}`
       ? [{ type: "operator"; value: "**" }, R2]
@@ -117,9 +119,9 @@ type TokenizeOne<S extends string> = TrimLeft<S> extends ""
     : C extends "?" | ":" | "+" | "-" | "/" | "%" | "&" | "^" | "|"
     ? [{ type: "operator"; value: C }, Rest]
     : // unknown char => error
-      never
+      CompileTimeError<`Unexpected character '${C}'`>
   : // can't match => error
-    never;
+    CompileTimeError<"Unable to tokenize input">;
 
 type TokenizeAll<
   S extends string,
@@ -128,13 +130,15 @@ type TokenizeAll<
   ? // finished
     Acc
   : // try to consume one token
-  TokenizeOne<S> extends [infer T, infer R]
+  TokenizeOne<S> extends CompileTimeError<infer M>
+  ? CompileTimeError<M>
+  : TokenizeOne<S> extends [infer T, infer R]
   ? T extends Token
     ? R extends string
       ? TokenizeAll<R, [...Acc, T]>
-      : never
-    : never
-  : never;
+      : CompileTimeError<"Invalid remainder while tokenizing">
+    : CompileTimeError<"Invalid token produced">
+  : CompileTimeError<"Unable to tokenize">;
 
 /** Main entry point to tokenize an entire string at the type level. */
 export type Tokenize<S extends string> = TokenizeAll<S>;
