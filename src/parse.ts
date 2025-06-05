@@ -26,11 +26,15 @@ type ParsePrimary<T extends TokenList> = T extends [
         never
     : H extends NumberToken<infer V>
     ? [`n:${V}`, R]
-    : H extends OperatorToken // Handle unary minus and plus here
-    ? H["value"] extends "-" | "+"
-      ? ParsePrimary<R> extends [infer OperandAst, infer R2 extends TokenList] // Parse primary after unary -/+
+    : H extends OperatorToken // Handle unary minus, plus, and ! here
+    ? H["value"] extends "-" | "+" | "!"
+      ? ParsePrimary<R> extends [infer OperandAst, infer R2 extends TokenList] // Parse primary after unary operator
         ? OperandAst extends string
-          ? [`${H["value"] extends "-" ? "-" : "+"}(${OperandAst})`, R2] // Represent unary -/+ in AST
+          ? H["value"] extends "-"
+            ? [`-(${OperandAst})`, R2]
+            : H["value"] extends "+"
+            ? [`+(${OperandAst})`, R2]
+            : [`!(${OperandAst})`, R2]
           : never
         : never
       : never // Other operators are not unary in ParsePrimary
@@ -194,8 +198,46 @@ type ParseBitOrRest<LhsAst extends string, T extends TokenList> = T extends [
       : never
     : [LhsAst, T]
   : [LhsAst, T]
+  : [LhsAst, T];
+
+type ParseLogicalAndRest<LhsAst extends string, T extends TokenList> = T extends [
+  infer H,
+  ...infer R extends TokenList
+] ? H extends OperatorToken
+  ? H["value"] extends "&&"
+    ? ParseComparison<R> extends [infer RhsAst, infer Tail2 extends TokenList]
+      ? RhsAst extends string
+        ? ParseLogicalAndRest<`&&(${LhsAst},${RhsAst})`, Tail2>
+        : never
+      : never
+    : [LhsAst, T]
+  : [LhsAst, T]
+: [LhsAst, T];
+
+type ParseLogicalOrRest<LhsAst extends string, T extends TokenList> = T extends [
+  infer H,
+  ...infer R extends TokenList
+] ? H extends OperatorToken
+  ? H["value"] extends "||"
+    ? ParseLogicalAnd<R> extends [infer RhsAst, infer Tail2 extends TokenList]
+      ? RhsAst extends string
+        ? ParseLogicalOrRest<`||(${LhsAst},${RhsAst})`, Tail2>
+        : never
+      : never
+    : [LhsAst, T]
+  : [LhsAst, T]
 : [LhsAst, T];
 type CompareOperator = "<" | "<=" | ">" | ">=" | "==" | "!=";
+
+type ParseLogicalAnd<T extends TokenList> = ParseComparison<T> extends [
+  infer FirstAst,
+  infer Tail1 extends TokenList
+] ? (FirstAst extends string ? ParseLogicalAndRest<FirstAst, Tail1> : never) : never;
+
+type ParseLogicalOr<T extends TokenList> = ParseLogicalAnd<T> extends [
+  infer FirstAst,
+  infer Tail1 extends TokenList
+] ? (FirstAst extends string ? ParseLogicalOrRest<FirstAst, Tail1> : never) : never;
 
 type ParseComparison<T extends TokenList> = ParseBitOr<T> extends [
   infer FirstAst,
@@ -216,7 +258,7 @@ type ParseComparisonRest<LhsAst extends string, T extends TokenList> = T extends
   : [LhsAst, T]
 : [LhsAst, T];
 
-type ParseTernary<T extends TokenList> = ParseComparison<T> extends [
+type ParseTernary<T extends TokenList> = ParseLogicalOr<T> extends [
   infer CondAst,
   infer Tail1 extends TokenList
 ] ? CondAst extends string

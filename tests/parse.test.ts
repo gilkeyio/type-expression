@@ -337,3 +337,27 @@ type ParseLeftShift = Expect<Equal<ToAstString<"1 << 3">, "<<(n:1,n:3)">>;
  * "8 >> 2" => ">>(n:8,n:2)"
  */
 type ParseRightShift = Expect<Equal<ToAstString<"8 >> 2">, ">>(n:8,n:2)">>;
+
+/**
+ * 52. Logical AND
+ * "3 > 2 && 5 > 3" => "&&(>(n:3,n:2),>(n:5,n:3))"
+ */
+type ParseLogicalAnd = Expect<Equal<ToAstString<"3 > 2 && 5 > 3">, "&&(>(n:3,n:2),>(n:5,n:3))">>;
+
+/**
+ * 53. Logical OR
+ * "1 < 2 || 3 < 4" => "||(<(n:1,n:2),<(n:3,n:4))"
+ */
+type ParseLogicalOr = Expect<Equal<ToAstString<"1 < 2 || 3 < 4">, "||(<(n:1,n:2),<(n:3,n:4))">>;
+
+/**
+ * 54. Mixed logical precedence
+ * "1 < 2 || 3 < 4 && 5 < 6" => "||(<(n:1,n:2),&&(<(n:3,n:4),<(n:5,n:6)))"
+ */
+type ParseLogicalPrecedence = Expect<Equal<ToAstString<"1 < 2 || 3 < 4 && 5 < 6">, "||(<(n:1,n:2),&&(<(n:3,n:4),<(n:5,n:6)))">>;
+
+/**
+ * 55. Unary logical NOT
+ * "!(1 < 2)" => "!(<(n:1,n:2))"
+ */
+type ParseLogicalNot = Expect<Equal<ToAstString<"!(1 < 2)">, "!(<(n:1,n:2))">>;

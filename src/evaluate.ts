@@ -108,6 +108,12 @@ export type Evaluate<S extends string> = S extends `n:${infer N extends number}`
   ? EvaluateXor<Body>
   : S extends `|(${infer Body})`
   ? EvaluateOr<Body>
+  : S extends `&&(${infer Body})`
+  ? EvaluateLogicalAnd<Body>
+  : S extends `||(${infer Body})`
+  ? EvaluateLogicalOr<Body>
+  : S extends `!(${infer Body})`
+  ? EvaluateNot<Body>
   : S extends `<(${infer Body})`
   ? EvaluateLt<Body>
   : S extends `<=(${infer Body})`
@@ -131,12 +137,21 @@ type EvaluatePlus<S extends string> = SplitTopLevel<S> extends [
 ]
   ? R extends ""
     ? // No top-level comma => unary plus
-      Evaluate<Trim<Extract<L, string>>>
+      Evaluate<Trim<Extract<L, string>>> extends infer A
+        ? A extends number
+          ? A
+          : never
+        : never
     : // Has top-level comma => binary plus
-      Add<
-        Evaluate<Trim<Extract<L, string>>>,
-        Evaluate<Trim<Extract<R, string>>>
-      >
+      Evaluate<Trim<Extract<L, string>>> extends infer A
+        ? A extends number
+          ? Evaluate<Trim<Extract<R, string>>> extends infer B
+            ? B extends number
+              ? Add<A, B>
+              : never
+            : never
+          : never
+        : never
   : never;
 
 type EvaluateMinus<S extends string> = SplitTopLevel<S> extends [
@@ -145,69 +160,155 @@ type EvaluateMinus<S extends string> = SplitTopLevel<S> extends [
 ]
   ? R extends ""
     ? // No top-level comma => unary minus
-      Subtract<0, Evaluate<Trim<Extract<L, string>>>>
+      Evaluate<Trim<Extract<L, string>>> extends infer A
+        ? A extends number
+          ? Subtract<0, A>
+          : never
+        : never
     : // Has top-level comma => binary minus
-      Subtract<
-        Evaluate<Trim<Extract<L, string>>>,
-        Evaluate<Trim<Extract<R, string>>>
-      >
+      Evaluate<Trim<Extract<L, string>>> extends infer A
+        ? A extends number
+          ? Evaluate<Trim<Extract<R, string>>> extends infer B
+            ? B extends number
+              ? Subtract<A, B>
+              : never
+            : never
+          : never
+        : never
   : never;
 
 type EvaluateMul<S extends string> = SplitTopLevel<S> extends [infer L, infer R]
-  ? Multiply<
-      Evaluate<Trim<Extract<L, string>>>,
-      Evaluate<Trim<Extract<R, string>>>
-    >
+  ? Evaluate<Trim<Extract<L, string>>> extends infer A
+    ? A extends number
+      ? Evaluate<Trim<Extract<R, string>>> extends infer B
+        ? B extends number
+          ? Multiply<A, B>
+          : never
+        : never
+      : never
+    : never
   : never;
 
 type EvaluateDiv<S extends string> = SplitTopLevel<S> extends [infer L, infer R]
-  ? Divide<
-      Evaluate<Trim<Extract<L, string>>>,
-      Evaluate<Trim<Extract<R, string>>>
-    >
+  ? Evaluate<Trim<Extract<L, string>>> extends infer A
+    ? A extends number
+      ? Evaluate<Trim<Extract<R, string>>> extends infer B
+        ? B extends number
+          ? Divide<A, B>
+          : never
+        : never
+      : never
+    : never
   : never;
 
 type EvaluateMod<S extends string> = SplitTopLevel<S> extends [infer L, infer R]
-  ? Mod<Evaluate<Trim<Extract<L, string>>>, Evaluate<Trim<Extract<R, string>>>>
+  ? Evaluate<Trim<Extract<L, string>>> extends infer A
+    ? A extends number
+      ? Evaluate<Trim<Extract<R, string>>> extends infer B
+        ? B extends number
+          ? Mod<A, B>
+          : never
+        : never
+      : never
+    : never
   : never;
 
 type EvaluateAnd<S extends string> = SplitTopLevel<S> extends [infer L, infer R]
-  ? BitwiseAnd<
-      Evaluate<Trim<Extract<L, string>>>,
-      Evaluate<Trim<Extract<R, string>>>
-    >
+  ? Evaluate<Trim<Extract<L, string>>> extends infer A
+    ? A extends number
+      ? Evaluate<Trim<Extract<R, string>>> extends infer B
+        ? B extends number
+          ? BitwiseAnd<A, B>
+          : never
+        : never
+      : never
+    : never
   : never;
 
 type EvaluateLeftShift<S extends string> = SplitTopLevel<S> extends [infer L, infer R]
-  ? LeftShift<
-      Evaluate<Trim<Extract<L, string>>>,
-      Evaluate<Trim<Extract<R, string>>>
-    >
+  ? Evaluate<Trim<Extract<L, string>>> extends infer A
+    ? A extends number
+      ? Evaluate<Trim<Extract<R, string>>> extends infer B
+        ? B extends number
+          ? LeftShift<A, B>
+          : never
+        : never
+      : never
+    : never
   : never;
 
 type EvaluateRightShift<S extends string> = SplitTopLevel<S> extends [infer L, infer R]
-  ? RightShift<
-      Evaluate<Trim<Extract<L, string>>>,
-      Evaluate<Trim<Extract<R, string>>>
-    >
+  ? Evaluate<Trim<Extract<L, string>>> extends infer A
+    ? A extends number
+      ? Evaluate<Trim<Extract<R, string>>> extends infer B
+        ? B extends number
+          ? RightShift<A, B>
+          : never
+        : never
+      : never
+    : never
   : never;
 
 type EvaluateXor<S extends string> = SplitTopLevel<S> extends [infer L, infer R]
-  ? BitwiseXor<
-      Evaluate<Trim<Extract<L, string>>>,
-      Evaluate<Trim<Extract<R, string>>>
-    >
+  ? Evaluate<Trim<Extract<L, string>>> extends infer A
+    ? A extends number
+      ? Evaluate<Trim<Extract<R, string>>> extends infer B
+        ? B extends number
+          ? BitwiseXor<A, B>
+          : never
+        : never
+      : never
+    : never
   : never;
 
 type EvaluateOr<S extends string> = SplitTopLevel<S> extends [infer L, infer R]
-  ? BitwiseOr<
-      Evaluate<Trim<Extract<L, string>>>,
-      Evaluate<Trim<Extract<R, string>>>
-    >
+  ? Evaluate<Trim<Extract<L, string>>> extends infer A
+    ? A extends number
+      ? Evaluate<Trim<Extract<R, string>>> extends infer B
+        ? B extends number
+          ? BitwiseOr<A, B>
+          : never
+        : never
+      : never
+    : never
   : never;
 
+type ToBool<V> = V extends number
+  ? V extends 0
+    ? false
+    : true
+  : V extends boolean
+  ? V
+  : never;
+
+type EvaluateLogicalAnd<S extends string> = SplitTopLevel<S> extends [infer L, infer R]
+  ? ToBool<Evaluate<Trim<Extract<L, string>>>> extends true
+    ? ToBool<Evaluate<Trim<Extract<R, string>>>> extends true
+      ? true
+      : false
+    : false
+  : never;
+
+type EvaluateLogicalOr<S extends string> = SplitTopLevel<S> extends [infer L, infer R]
+  ? ToBool<Evaluate<Trim<Extract<L, string>>>> extends true
+    ? true
+    : ToBool<Evaluate<Trim<Extract<R, string>>>> extends true
+    ? true
+    : false
+  : never;
+
+type EvaluateNot<S extends string> = ToBool<Evaluate<Trim<S>>> extends true ? false : true;
+
 type EvaluatePow<S extends string> = SplitTopLevel<S> extends [infer L, infer R]
-  ? Pow<Evaluate<Trim<Extract<L, string>>>, Evaluate<Trim<Extract<R, string>>>>
+  ? Evaluate<Trim<Extract<L, string>>> extends infer A
+    ? A extends number
+      ? Evaluate<Trim<Extract<R, string>>> extends infer B
+        ? B extends number
+          ? Pow<A, B>
+          : never
+        : never
+      : never
+    : never
   : never;
 
 type BitToBool<B extends Bit> = B extends 1 ? true : false;

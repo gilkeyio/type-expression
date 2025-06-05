@@ -383,3 +383,41 @@ type EvalLeftShift = Expect<Equal<Evaluate<"<<(n:1,n:3)">, 8>>;
  * ">>(n:8,n:2)" => 2
  */
 type EvalRightShift = Expect<Equal<Evaluate<">>(n:8,n:2)">, 2>>;
+
+/**
+ * 55. Logical AND evaluation
+ * "&&(>(n:3,n:2),>(n:5,n:3))" => true
+ */
+type EvalLogicalAnd = Expect<
+  Equal<Evaluate<"&&(>(n:3,n:2),>(n:5,n:3))">, true>
+>;
+
+/**
+ * 56. Logical OR evaluation
+ * "||(>(n:1,n:2),>(n:2,n:1))" => true
+ */
+type EvalLogicalOr = Expect<
+  Equal<Evaluate<"||(>(n:1,n:2),>(n:2,n:1))">, true>
+>;
+
+/**
+ * 57. Mixed logical precedence
+ * "||(>(n:1,n:2),&&(>(n:3,n:4),>(n:5,n:6)))" => false
+ */
+type EvalLogicalPrecedence = Expect<
+  Equal<Evaluate<"||(>(n:1,n:2),&&(>(n:3,n:4),>(n:5,n:6)))">, false>
+>;
+
+/**
+ * 58. Unary logical NOT
+ * "!(>(n:3,n:2))" => false
+ */
+type EvalLogicalNot = Expect<Equal<Evaluate<"!(>(n:3,n:2))">, false>>;
+
+/**
+ * 59. Logical NOT with OR
+ * "!(||(<(n:1,n:2),>(n:2,n:3)))" => false
+ */
+type EvalLogicalNotComplex = Expect<
+  Equal<Evaluate<"!(||(<(n:1,n:2),>(n:2,n:3)))">, false>
+>;

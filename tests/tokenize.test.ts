@@ -922,3 +922,58 @@ type TokenRightShift = Expect<
     ]
   >
 >;
+
+/**
+ * 46. Logical AND tokens
+ * "1 && 0" => [
+ *   { type: "number"; value: 1 },
+ *   { type: "operator"; value: "&&" },
+ *   { type: "number"; value: 0 }
+ * ]
+ */
+type TokenLogicalAnd = Expect<
+  Equal<
+    Tokenize<"1 && 0">,
+    [
+      { type: "number"; value: 1 },
+      { type: "operator"; value: "&&" },
+      { type: "number"; value: 0 }
+    ]
+  >
+>;
+
+/**
+ * 47. Logical OR tokens
+ * "0 || 1" => [
+ *   { type: "number"; value: 0 },
+ *   { type: "operator"; value: "||" },
+ *   { type: "number"; value: 1 }
+ * ]
+ */
+type TokenLogicalOr = Expect<
+  Equal<
+    Tokenize<"0 || 1">,
+    [
+      { type: "number"; value: 0 },
+      { type: "operator"; value: "||" },
+      { type: "number"; value: 1 }
+    ]
+  >
+>;
+
+/**
+ * 48. Logical NOT tokens
+ * "!1" => [
+ *   { type: "operator"; value: "!" },
+ *   { type: "number"; value: 1 }
+ * ]
+ */
+type TokenLogicalNot = Expect<
+  Equal<
+    Tokenize<"!1">,
+    [
+      { type: "operator"; value: "!" },
+      { type: "number"; value: 1 }
+    ]
+  >
+>;
