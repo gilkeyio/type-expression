@@ -1,11 +1,11 @@
 # Changelog
 
-## 2.2.0 - 2025-06-07
+## 2.2.0 - 2025-06-05
 
 ### Added
 - Left (`<<`) and right (`>>`) shift operators.
 
-## 2.1.0 - 2025-06-06
+## 2.1.0 - 2025-06-05
 
 ### Added
 - Introduced `^` as the bitwise XOR operator.
