@@ -865,3 +865,22 @@ type TokenTernary = Expect<
     ]
   >
 >;
+
+/**
+ * 43. Bitwise XOR
+ * "5 ^ 2" => [
+ *   { type: "number"; value: 5 },
+ *   { type: "operator"; value: "^" },
+ *   { type: "number"; value: 2 }
+ * ]
+ */
+type TokenXor = Expect<
+  Equal<
+    Tokenize<"5 ^ 2">,
+    [
+      { type: "number"; value: 5 },
+      { type: "operator"; value: "^" },
+      { type: "number"; value: 2 }
+    ]
+  >
+>;

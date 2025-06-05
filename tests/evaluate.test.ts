@@ -365,3 +365,9 @@ type EvalTernaryFalse = Expect<
 type EvalNestedTernary = Expect<
   Equal<Evaluate<"?:(>(n:1,n:2),n:1,?:(>(n:3,n:2),n:2,n:3))">, 2>
 >;
+
+/**
+ * 52. Bitwise XOR
+ * "^(n:5,n:2)" => 7
+ */
+type EvalBitwiseXor = Expect<Equal<Evaluate<"^(n:5,n:2)">, 7>>;

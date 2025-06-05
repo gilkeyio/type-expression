@@ -296,3 +296,9 @@ type ExprTernaryFalse = Expect<Equal<TypeExpr<"2 < 1 ? 10 : 20">, 20>>;
 type ExprNestedTernary = Expect<
   Equal<TypeExpr<"1 > 2 ? 1 : 3 > 2 ? 2 : 3">, 2>
 >;
+
+/**
+ * 50. Bitwise XOR
+ * "5 ^ 2" => 7
+ */
+type ExprBitwiseXor = Expect<Equal<TypeExpr<"5 ^ 2">, 7>>;

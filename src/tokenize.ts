@@ -8,6 +8,7 @@ type Operator =
   | "%"
   | "**"
   | "&"
+  | "^"
   | "|"
   | "<"
   | "<="
@@ -107,7 +108,7 @@ type TokenizeOne<S extends string> = TrimLeft<S> extends ""
     ? Rest extends `*${infer R2}`
       ? [{ type: "operator"; value: "**" }, R2]
       : [{ type: "operator"; value: "*" }, Rest]
-    : C extends "?" | ":" | "+" | "-" | "/" | "%" | "&" | "|"
+    : C extends "?" | ":" | "+" | "-" | "/" | "%" | "&" | "^" | "|"
     ? [{ type: "operator"; value: C }, Rest]
     : // unknown char => error
       never
