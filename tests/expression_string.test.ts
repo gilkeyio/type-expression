@@ -302,3 +302,41 @@ type ExprNestedTernary = Expect<
  * "5 ^ 2" => 7
  */
 type ExprBitwiseXor = Expect<Equal<TypeExpr<"5 ^ 2">, 7>>;
+
+/**
+ * 51. Bitwise XOR with same inputs
+ * "3 ^ 3" => 0
+ */
+type ExprXorSame = Expect<Equal<TypeExpr<"3 ^ 3">, 0>>
+
+/**
+ * 52. Bitwise XOR with 0
+ * "42 ^ 0" => 42
+ */
+type ExprXorZero = Expect<Equal<TypeExpr<"42 ^ 0">, 42>>
+
+/**
+ * 53. Bitwise XOR chain
+ * "5 ^ 2 ^ 7" => 0
+ * Explanation: 5 ^ 2 = 7, 7 ^ 7 = 0
+ */
+type ExprXorChain = Expect<Equal<TypeExpr<"5 ^ 2 ^ 7">, 0>>
+
+/**
+ * 54. Bitwise XOR with parentheses
+ * "5 ^ (2 ^ 7)" => 5 ^ 5 => 0
+ */
+type ExprXorParen = Expect<Equal<TypeExpr<"5 ^ (2 ^ 7)">, 0>>
+
+/**
+ * 55. Bitwise XOR with left-associative evaluation
+ * "1 ^ 2 ^ 4" => (1 ^ 2) ^ 4 => 3 ^ 4 => 7
+ */
+type ExprXorLeftAssoc = Expect<Equal<TypeExpr<"1 ^ 2 ^ 4">, 7>>
+
+/**
+ * 56. Bitwise XOR across high values
+ * "255 ^ 170" => 85
+ * Explanation: 0b11111111 ^ 0b10101010 = 0b01010101 = 85
+ */
+type ExprXorHigh = Expect<Equal<TypeExpr<"255 ^ 170">, 85>>
