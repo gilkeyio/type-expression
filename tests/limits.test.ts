@@ -63,14 +63,14 @@ export type HugeBitwiseOrChain = Expect<
 
 /**
  * 8. Exponentiation chain
- * "2 ^ 2 ^ 2 ^ 2" => 65536
+ * "2 ** 2 ** 2 ** 2" => 65536
  */
-export type ExponentiationChain = Expect<Equal<TypeExpr<"2 ^ 2 ^ 2 ^ 2">, 65536>>;
+export type ExponentiationChain = Expect<Equal<TypeExpr<"2 ** 2 ** 2 ** 2">, 65536>>;
 
 /**
  * 9. Mixed complex expression with bitwise and arithmetic operators
- * "((1 + 2) * (3 + 4) ^ 2) & (1 | 2 | 4 | 8)" => 3
+ * "((1 + 2) * (3 + 4) ** 2) & (1 | 2 | 4 | 8)" => 3
  */
 export type MixedComplexExpression = Expect<
-  Equal<TypeExpr<"((1 + 2) * (3 + 4) ^ 2) & (1 | 2 | 4 | 8)">, 3>
+  Equal<TypeExpr<"((1 + 2) * (3 + 4) ** 2) & (1 | 2 | 4 | 8)">, 3>
 >;

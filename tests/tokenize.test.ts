@@ -123,18 +123,18 @@ type TokenModuloOperation = Expect<
 
 /**
  * 8. Exponentiation
- * "2 ^ 3" => [
+ * "2 ** 3" => [
  *   { type: "number"; value: 2 },
- *   { type: "operator"; value: "^" },
+ *   { type: "operator"; value: "**" },
  *   { type: "number"; value: 3 }
  * ]
  */
 type TokenExponentiation = Expect<
   Equal<
-    Tokenize<"2 ^ 3">,
+    Tokenize<"2 ** 3">,
     [
       { type: "number"; value: 2 },
-      { type: "operator"; value: "^" },
+      { type: "operator"; value: "**" },
       { type: "number"; value: 3 }
     ]
   >
@@ -192,22 +192,22 @@ type TokenParenthesesOrder = Expect<
 
 /**
  * 11. Multiple exponentiations
- * "2 ^ 3 ^ 2" => [
+ * "2 ** 3 ** 2" => [
  *   { type: "number"; value: 2 },
- *   { type: "operator"; value: "^" },
+ *   { type: "operator"; value: "**" },
  *   { type: "number"; value: 3 },
- *   { type: "operator"; value: "^" },
+ *   { type: "operator"; value: "**" },
  *   { type: "number"; value: 2 }
  * ]
  */
 type TokenMultipleExponentiations = Expect<
   Equal<
-    Tokenize<"2 ^ 3 ^ 2">,
+    Tokenize<"2 ** 3 ** 2">,
     [
       { type: "number"; value: 2 },
-      { type: "operator"; value: "^" },
+      { type: "operator"; value: "**" },
       { type: "number"; value: 3 },
-      { type: "operator"; value: "^" },
+      { type: "operator"; value: "**" },
       { type: "number"; value: 2 }
     ]
   >
@@ -346,18 +346,18 @@ type TokenDecimalDivision = Expect<
 
 /**
  * 18. Decimal exponentiation
- * "2.5 ^ 2" => [
+ * "2.5 ** 2" => [
  *   { type: "number"; value: 2.5 },
- *   { type: "operator"; value: "^" },
+ *   { type: "operator"; value: "**" },
  *   { type: "number"; value: 2 }
  * ]
  */
 type TokenDecimalExponentiation = Expect<
   Equal<
-    Tokenize<"2.5 ^ 2">,
+    Tokenize<"2.5 ** 2">,
     [
       { type: "number"; value: 2.5 },
-      { type: "operator"; value: "^" },
+      { type: "operator"; value: "**" },
       { type: "number"; value: 2 }
     ]
   >

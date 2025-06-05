@@ -41,9 +41,9 @@ type ParseModulo = Expect<Equal<ToAstString<"7 % 3">, "%(n:7,n:3)">>;
 
 /**
  * 8. Exponentiation
- * "2 ^ 3" => "^(n:2,n:3)"
+ * "2 ** 3" => "**(n:2,n:3)"
  */
-type ParseExponentiation = Expect<Equal<ToAstString<"2 ^ 3">, "^(n:2,n:3)">>;
+type ParseExponentiation = Expect<Equal<ToAstString<"2 ** 3">, "**(n:2,n:3)">>;
 
 /**
  * 9. Mixed operators, shallow nesting
@@ -59,9 +59,9 @@ type ParseParenthesesOrder = Expect<Equal<ToAstString<"(5 + 3) * 2">, "*(+(n:5,n
 
 /**
  * 11. Multiple exponentiations
- * "2 ^ 3 ^ 2" => "^(n:2,^(n:3,n:2))"
+ * "2 ** 3 ** 2" => "**(n:2,**(n:3,n:2))"
  */
-type ParseMultipleExponentiations = Expect<Equal<ToAstString<"2 ^ 3 ^ 2">, "^(n:2,^(n:3,n:2))">>;
+type ParseMultipleExponentiations = Expect<Equal<ToAstString<"2 ** 3 ** 2">, "**(n:2,**(n:3,n:2))">>;
 
 /**
  * 12. Multiple parentheses with different operations
@@ -105,9 +105,9 @@ type ParseDecimalDivision = Expect<Equal<ToAstString<"10 / 2.5">, "/(n:10,n:2.5)
 
 /**
  * 18. Decimal exponentiation
- * "2.5 ^ 2" => "^(n:2.5,n:2)"
+ * "2.5 ** 2" => "**(n:2.5,n:2)"
  */
-type ParseDecimalExponentiation = Expect<Equal<ToAstString<"2.5 ^ 2">, "^(n:2.5,n:2)">>;
+type ParseDecimalExponentiation = Expect<Equal<ToAstString<"2.5 ** 2">, "**(n:2.5,n:2)">>;
 
 /**
  * 19. Decimal parentheses

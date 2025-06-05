@@ -78,7 +78,7 @@ export type Evaluate<S extends string> = S extends `n:${infer N extends number}`
   ? EvaluateMul<Body>
   : S extends `/(${infer Body})`
   ? EvaluateDiv<Body>
-  : S extends `^(${infer Body})`
+  : S extends `**(${infer Body})`
   ? EvaluatePow<Body>
   : S extends `%(${infer Body})`
   ? EvaluateMod<Body>
