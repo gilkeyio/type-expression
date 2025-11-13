@@ -7,7 +7,7 @@
 - **Instant feedback** – catch numeric mistakes before your code runs.  
 - **No runtime cost** – all computation happens in the TypeScript compiler; the emitted JavaScript is unchanged.  
 - **Strongly typed results** – the evaluated number is available as a literal type that can be used anywhere the type system expects a value.
-- **It was fun to make** - if you find an actual use for something like this I would love to hear it
+- **It was fun to make** - if you find an actual use for something like this I would love to hear it.
 
 ## Features
 
@@ -17,15 +17,13 @@
 | Parser | Recursive-descent parser with correct precedence, associativity, parentheses, and unary ± support. Produces a canonical AST string. |
 | Evaluator | Delegates arithmetic to [`ts-arithmetic`](https://github.com/arielhs/ts-arithmetic) for arbitrary-precision math at the type level. |
 | Decimals & negatives | Works with decimal literals and unary operators out of the box. |
-| Comparisons & conditional | Supports `>`, `<`, `>=`, `<=`, `==`, `!=` and the `?:` ternary operator. |
+| Comparisons & conditional | Supports `>`, `<`, `>=`, `<=`, `==`, `!=` and the `?:` ternary operator. 
 | Extensive tests | Dozens of compile-time test cases cover tricky edge cases. |
 | MIT-licensed | Free for personal and commercial use. |
 
 ## Installation
 
 ```bash
-npm install @gilkeyio/type-expression
-
 # or work directly from the repo
 npm install gilkeyio/TypeExpression
 ts-arithmetic is already listed as a dependency.
@@ -80,11 +78,7 @@ type Value  = Evaluate<Ast>;          // 9
 
 ## Limitations
 - Relies on TypeScript’s recursive-type depth; extremely large expressions may hit compiler limits.
-- Division is floating-point; exact rationals aren’t supported (yet).
-
-## Contributing
-
-PRs and suggestions welcome, especially for performance or language-feature ideas inspired by the wider type-level community.
+- Division is floating-point; exact rationals aren’t supported.
 
 ## License
 
